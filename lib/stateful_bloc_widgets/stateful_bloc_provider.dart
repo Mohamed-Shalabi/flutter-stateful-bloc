@@ -4,20 +4,34 @@ class StatefulBlocProvider extends StatelessWidget {
   const StatefulBlocProvider({
     super.key,
     required this.app,
-    required this.listener,
   });
 
   final Widget app;
-  final BlocWidgetListener<GlobalState> listener;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => _GlobalCubit(),
-      child: BlocListener<_GlobalCubit, GlobalState>(
-        listener: listener,
-        child: app,
-      ),
+      child: app,
+    );
+  }
+}
+
+class StatefulBlocListener extends StatelessWidget {
+  const StatefulBlocListener({
+    super.key,
+    required this.listener,
+    required this.body,
+  });
+
+  final BlocWidgetListener<GlobalState> listener;
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<_GlobalCubit, GlobalState>(
+      listener: listener,
+      child: body,
     );
   }
 }
