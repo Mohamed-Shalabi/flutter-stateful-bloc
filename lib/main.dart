@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
         body: StatefulBlocConsumer<CounterStates>(
-          initialState: CounterInitialState(),
+          initialState: const CounterInitialState(),
           builder: (context, state) {
             return Center(
               child: Column(
