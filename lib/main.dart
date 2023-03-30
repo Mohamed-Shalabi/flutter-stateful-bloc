@@ -51,13 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: StatefulBlocListener(
         listener: (context, state) {
-          if (state is CounterState) {
+          if (state is CounterStates) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.counter.toString())),
             );
           }
         },
-        body: StatefulBlocConsumer<CounterState>(
+        body: StatefulBlocConsumer<CounterStates>(
           initialState: CounterInitialState(),
           builder: (context, state) {
             return Center(
@@ -86,26 +86,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-abstract class CounterState extends GlobalState {
+abstract class CounterStates extends GlobalState {
   final int counter;
 
-  CounterState(this.counter);
+  const CounterStates(this.counter);
 }
 
-class CounterInitialState extends CounterState {
-  CounterInitialState() : super(0);
+class CounterInitialState extends CounterStates {
+  const CounterInitialState() : super(0);
 }
 
-class CounterIncrementState extends CounterState {
-  CounterIncrementState(super.counter);
+class CounterIncrementState extends CounterStates {
+  const CounterIncrementState(super.counter);
 }
 
-class CounterDecrementState extends CounterState {
-  CounterDecrementState(super.counter);
+class CounterDecrementState extends CounterStates {
+  const CounterDecrementState(super.counter);
 }
 
 class CounterStatefulCubit extends StatefulCubit {
-  CounterStatefulCubit(this._repository);
+  const CounterStatefulCubit(this._repository);
 
   final CounterRepository _repository;
 

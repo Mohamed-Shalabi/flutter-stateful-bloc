@@ -19,6 +19,9 @@ class _GlobalCubit extends Cubit<GlobalState> {
   }
 }
 
-abstract class GlobalState {}
+@immutable
+abstract class GlobalState {
+  const GlobalState();
+}
 
 class _GlobalInitialState extends GlobalState {}
