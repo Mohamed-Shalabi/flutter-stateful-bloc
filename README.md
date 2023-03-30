@@ -1,16 +1,24 @@
 # stateful_bloc
 
-A new Flutter project.
+A Flutter project that wraps the `flutter_bloc` package to easify working with it by:
+
+- Ensuring that the UI gets data from the **states** only, not the cubit itself, by making all the **states** and **cubits** immutable.
+- No need to inject the **cubits** to the UI by the **BlocProvider**, with the ability to separate the **cubits** without the headache of taking care of the widget tree.
+- Based on BLoC, no workarounds.
+- All cubits are owned by you, you can handle them in a DI framework as you need.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### To get started:
 
-A few resources to get you started if this is your first Flutter project:
+- Wrap your app with ***StatefulBlocProvider***.
+- Create your states that extend ***ExtendableState***.
+- Create your cubit that extends ***StatefulCubit***.
+- Wrap your UI that depends on the cubit with ***StatefulBlocConsumer*** to rebuild depending on the states.
+- Wrap the body of the **Scaffold** with ***StatefulBlocListener*** to listen to states. 
+- Create an instance of your cubit and enjoy :)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## NOTES:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- All cubits and states must be immutable with const constructors.
+- The ***StatefulBlocConsumer*** won't rebuild except if the emiitted state is of its generic type or its children.
