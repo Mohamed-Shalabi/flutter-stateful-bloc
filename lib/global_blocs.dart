@@ -8,10 +8,10 @@ part 'stateful_bloc_widgets/stateful_bloc_provider.dart';
 part 'stateful_bloc_widgets/stateful_bloc_consumer.dart';
 part 'extendable_blocs/extendable_blocs.dart';
 
-final StreamController<GlobalState> _statesStreamController =
+final StreamController<ExtendableState> _statesStreamController =
     StreamController.broadcast();
 
-class _GlobalCubit extends Cubit<GlobalState> {
+class _GlobalCubit extends Cubit<ExtendableState> {
   _GlobalCubit() : super(_GlobalInitialState()) {
     _statesStreamController.stream.listen((state) {
       emit(state);
@@ -20,8 +20,8 @@ class _GlobalCubit extends Cubit<GlobalState> {
 }
 
 @immutable
-abstract class GlobalState {
-  const GlobalState();
+abstract class ExtendableState {
+  const ExtendableState();
 }
 
-class _GlobalInitialState extends GlobalState {}
+class _GlobalInitialState extends ExtendableState {}

@@ -1,6 +1,6 @@
 part of '../global_blocs.dart';
 
-class StatefulBlocConsumer<ConsumedState extends GlobalState>
+class StatefulBlocConsumer<ConsumedState extends ExtendableState>
     extends StatelessWidget {
   const StatefulBlocConsumer({
     super.key,
@@ -13,7 +13,7 @@ class StatefulBlocConsumer<ConsumedState extends GlobalState>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<_GlobalCubit, GlobalState>(
+    return BlocBuilder<_GlobalCubit, ExtendableState>(
       buildWhen: (previous, current) {
         return current is ConsumedState && current != previous;
       },
@@ -27,7 +27,7 @@ class StatefulBlocConsumer<ConsumedState extends GlobalState>
   }
 }
 
-typedef StateWidgetBuilder<State extends GlobalState> = Widget Function(
+typedef StateWidgetBuilder<State extends ExtendableState> = Widget Function(
   BuildContext context,
   State state,
 );

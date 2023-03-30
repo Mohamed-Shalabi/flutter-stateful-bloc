@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-abstract class CounterStates extends GlobalState {
+abstract class CounterStates extends ExtendableState {
   final int counter;
 
   const CounterStates(this.counter);

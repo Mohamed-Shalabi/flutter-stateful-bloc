@@ -24,12 +24,12 @@ class StatefulBlocListener extends StatelessWidget {
     required this.body,
   });
 
-  final BlocWidgetListener<GlobalState> listener;
+  final BlocWidgetListener<ExtendableState> listener;
   final Widget body;
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<_GlobalCubit, GlobalState>(
+    return BlocListener<_GlobalCubit, ExtendableState>(
       listener: listener,
       child: body,
     );
