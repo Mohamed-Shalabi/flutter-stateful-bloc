@@ -1,4 +1,4 @@
-part of '../global_bloc/global_cubit.dart';
+part of '../global_blocs.dart';
 
 class StatefulBlocProvider extends StatelessWidget {
   const StatefulBlocProvider({

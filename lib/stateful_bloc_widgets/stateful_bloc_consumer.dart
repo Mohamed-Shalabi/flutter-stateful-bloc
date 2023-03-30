@@ -1,36 +1,27 @@
-part of '../global_bloc/global_cubit.dart';
+part of '../global_blocs.dart';
 
-class StatefulBlocConsumer<ConsumedState extends GlobalState> extends StatefulWidget {
-  const StatefulBlocConsumer({super.key, required this.builder, required this.initialState});
+class StatefulBlocConsumer<ConsumedState extends GlobalState>
+    extends StatelessWidget {
+  const StatefulBlocConsumer({
+    super.key,
+    required this.builder,
+    required this.initialState,
+  });
 
   final StateWidgetBuilder<ConsumedState> builder;
   final ConsumedState initialState;
 
   @override
-  State<StatefulBlocConsumer<ConsumedState>> createState() => _StatefulBlocConsumerState<ConsumedState>();
-}
-
-class _StatefulBlocConsumerState<ConsumedState extends GlobalState> extends State<StatefulBlocConsumer<ConsumedState>> {
-  late ConsumedState state;
-
-  @override
-  void initState() {
-    state = widget.initialState;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocSelector<_GlobalCubit, GlobalState, ConsumedState>(
-      selector: (state) {
-        if (state is ConsumedState) {
-          return state;
-        }
-
-        return this.state;
+    return BlocBuilder<_GlobalCubit, GlobalState>(
+      buildWhen: (previous, current) {
+        return current is ConsumedState && current != previous;
       },
       builder: (BuildContext context, state) {
-        return widget.builder(context, state);
+        return builder(
+          context,
+          state is _GlobalInitialState ? initialState : state as ConsumedState,
+        );
       },
     );
   }
