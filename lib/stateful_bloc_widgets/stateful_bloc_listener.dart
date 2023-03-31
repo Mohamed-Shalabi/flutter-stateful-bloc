@@ -13,6 +13,10 @@ class StatefulBlocListener<ListenedState extends ExtendableState>
 
   @override
   Widget build(BuildContext context) {
+    if (ListenedState == dynamic) {
+      throw 'You must enter the states you need to listen to';
+    }
+
     return BlocListener<_GlobalCubit, ExtendableState>(
       listenWhen: (previous, current) {
         return current is ListenedState && current != previous;
