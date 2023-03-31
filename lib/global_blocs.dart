@@ -37,7 +37,7 @@ class _GlobalCubit extends Cubit<ExtendableState> {
       oldSimilarState ??= _GlobalInitialState();
 
       final callback = stateObserver._getStateObserver(superStateType);
-      callback(oldSimilarState, currentState);
+      callback(superStateType, oldSimilarState, currentState);
     }
   }
 }

@@ -3,6 +3,7 @@ part of '../global_blocs.dart';
 StateObserverInterface get stateObserver => _StateObserver.instance;
 
 typedef StateChanged = void Function(
+  Type superState,
   ExtendableState previous,
   ExtendableState current,
 );
@@ -21,12 +22,13 @@ class _StateObserver implements StateObserverInterface {
   final Map<Type, StateChanged> _stateObservers = {};
 
   StateChanged _defaultStateObserver = (
+    Type superState,
     ExtendableState previous,
     ExtendableState current,
   ) {
     if (kDebugMode) {
       print(
-        'Scope ${current.superStates}: '
+        'Scope $superState: '
         'Transitioning from ${previous.runtimeType} '
         'to ${current.runtimeType}',
       );
