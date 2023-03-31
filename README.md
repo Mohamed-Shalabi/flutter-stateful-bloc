@@ -17,14 +17,18 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 - Wrap your app with ***StatefulBlocProvider***.
 - Create your states that extend ***ExtendableState***.
+- In your **super state** override **superStates** getter and add the current state type.
+- You can add more **super states** to the **superStates** getter if you need to depend on multiple **super states** for the same widget.
 - Create your cubit that extends ***StatefulCubit***.
 - Wrap your UI that depends on the cubit with ***StatefulBlocConsumer*** to rebuild depending on the states.
 - Wrap the body of the **Scaffold** with ***StatefulBlocListener*** to listen to states. 
 - Create an instance of your cubit and enjoy :)
+- You can make actions when state changes using **stateObserver**.
+- You can access last **states** of each **super state** using **stateHolder**.
 
 ## Testing:
 
-Comming soon
+For minimalization, you can test your **cubits** manually and check the **states** using **stateHolder**.
 
 ## NOTES:
 
