@@ -27,11 +27,11 @@ class _GlobalCubit extends Cubit<ExtendableState> {
   void onChange(Change<ExtendableState> change) {
     final superStateType = change.nextState.superState;
     final currentState = change.nextState;
-    final oldSimilarState = lastStates[superStateType];
+    var oldSimilarState = lastStates[superStateType];
 
-    if (oldSimilarState == null) {
-      return;
-    }
+    lastStates[superStateType] = currentState;
+
+    oldSimilarState ??= _GlobalInitialState();
 
     final callback = stateObservers[superStateType];
     if (callback == null) {
@@ -39,8 +39,6 @@ class _GlobalCubit extends Cubit<ExtendableState> {
     } else {
       callback(oldSimilarState, currentState);
     }
-
-    lastStates[superStateType] = currentState;
   }
 }
 
