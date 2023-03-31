@@ -31,13 +31,13 @@ class _GlobalCubit extends Cubit<ExtendableState> {
     final superStatesTypes = change.nextState.superStates;
     final currentState = change.nextState;
 
-      for (final superStateType in superStatesTypes) {
-    var oldSimilarState = stateHolder.lastStateOfSuperType(superStateType);
+    for (final superStateType in superStatesTypes) {
+      var oldSimilarState = stateHolder.lastStateOfSuperType(superStateType);
 
-    oldSimilarState ??= _GlobalInitialState();
+      oldSimilarState ??= _GlobalInitialState();
 
-    final callback = stateObserver._getStateObserver(superStateType);
-    callback(oldSimilarState, currentState);
+      final callback = stateObserver._getStateObserver(superStateType);
+      callback(oldSimilarState, currentState);
     }
   }
 }
