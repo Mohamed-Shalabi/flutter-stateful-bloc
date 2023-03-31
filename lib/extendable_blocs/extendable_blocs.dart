@@ -7,12 +7,13 @@ abstract class _ExtendableStatefulBlocBase<State extends ExtendableState> {
   void emit(State state);
 }
 
-class StatefulCubit<State extends ExtendableState> extends _ExtendableStatefulBlocBase<State> {
+class StatefulCubit<State extends ExtendableState>
+    extends _ExtendableStatefulBlocBase<State> {
   const StatefulCubit();
 
   @override
   @nonVirtual
   void emit(State state) {
-    _statesStreamController.add(state);
+    stateHolder._addState(state);
   }
 }
