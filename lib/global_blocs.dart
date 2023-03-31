@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 part 'stateful_bloc_widgets/stateful_bloc_provider.dart';
 part 'stateful_bloc_widgets/stateful_bloc_consumer.dart';
+part 'stateful_bloc_widgets/stateful_bloc_listener.dart';
 part 'extendable_blocs/extendable_blocs.dart';
 
 final StreamController<ExtendableState> _statesStreamController =
