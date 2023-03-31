@@ -19,6 +19,10 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 - Wrap the body of the **Scaffold** with ***StatefulBlocListener*** to listen to states. 
 - Create an instance of your cubit and enjoy :)
 
+## Testing:
+
+Comming soon
+
 ## NOTES:
 
 - All cubits and states must be immutable with const constructors.
