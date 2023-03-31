@@ -1,3 +1,1 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-typedef StateObserver = BlocObserver;
+// TODO: make StateObserver which is equvalent to BlocObserver
