@@ -22,3 +22,4 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 - All cubits and states must be immutable with const constructors.
 - The ***StatefulBlocConsumer*** won't rebuild except if the emiitted state is of its generic type or its children.
+- The package won't be published before completing development and testing, because it is still unstable.
