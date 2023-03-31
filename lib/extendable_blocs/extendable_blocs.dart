@@ -1,13 +1,13 @@
 part of '../global_blocs.dart';
 
 @immutable
-abstract class ExtendableStatefulBlocBase {
-  const ExtendableStatefulBlocBase();
+abstract class _ExtendableStatefulBlocBase {
+  const _ExtendableStatefulBlocBase();
 
   void emit(ExtendableState state);
 }
 
-class StatefulCubit extends ExtendableStatefulBlocBase {
+class StatefulCubit extends _ExtendableStatefulBlocBase {
   const StatefulCubit();
 
   @override
