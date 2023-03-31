@@ -39,5 +39,4 @@ For minimalization, you can test your **cubits** manually and check the **states
 ## TODO list:
 
 - Changing package name to stateful_cubit.
-- Making errors traceable.
 - Writing rich documentation.
