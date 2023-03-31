@@ -36,7 +36,7 @@ For minimalization, you can test your **cubits** manually and check the **states
 - The ***StatefulBlocConsumer*** won't rebuild except if the emiitted state is of its generic type or its children.
 - The package won't be published before completing development and testing, because it is still unstable.
 
-## TODO list:
+## TODOs:
 
 - Changing package name to stateful_cubit.
 - Writing rich documentation.
