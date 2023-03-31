@@ -43,16 +43,29 @@ class _MyHomePageState extends State<MyHomePage> {
     cubit.increment();
   }
 
+  void _decrementCounter() {
+    cubit.decrement();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: StatefulBlocListener(
+      body: StatefulBlocListener<CounterStates>(
         listener: (context, state) {
-          if (state is CounterStates) {
-            ScaffoldMessenger.of(context).showSnackBar(
+          final scaffoldMessenger = ScaffoldMessenger.of(context);
+          if (state is CounterIncrementState) {
+            scaffoldMessenger.hideCurrentSnackBar();
+            scaffoldMessenger.showSnackBar(
+              SnackBar(content: Text(state.counter.toString())),
+            );
+          }
+
+          if (state is CounterDecrementState) {
+            scaffoldMessenger.hideCurrentSnackBar();
+            scaffoldMessenger.showSnackBar(
               SnackBar(content: Text(state.counter.toString())),
             );
           }
@@ -77,10 +90,23 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          FloatingActionButton(
+            heroTag: 'increment',
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            heroTag: 'decrement',
+            onPressed: _decrementCounter,
+            tooltip: 'decrement',
+            child: const Icon(Icons.remove),
+          ),
+        ],
       ),
     );
   }
@@ -90,6 +116,9 @@ abstract class CounterStates extends ExtendableState {
   final int counter;
 
   const CounterStates(this.counter);
+
+  @override
+  Type get superState => CounterStates;
 }
 
 class CounterInitialState extends CounterStates {
@@ -113,6 +142,11 @@ class CounterStatefulCubit extends StatefulCubit {
     final newValue = _repository.increment();
     emit(CounterIncrementState(newValue));
   }
+
+  void decrement() {
+    final newValue = _repository.decrement();
+    emit(CounterDecrementState(newValue));
+  }
 }
 
 class CounterRepository {
@@ -123,10 +157,14 @@ class CounterRepository {
   int get counter => _dataSource.counter;
 
   int increment() => _dataSource.increment();
+
+  int decrement() => _dataSource.decrement();
 }
 
 class CounterDataSource {
   int counter = 0;
 
   int increment() => ++counter;
+
+  int decrement() => --counter;
 }
