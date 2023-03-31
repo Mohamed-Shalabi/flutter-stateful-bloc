@@ -4,7 +4,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 - Ensuring that the UI gets data from the **states** only, not the cubit itself, by making all the **states** and **cubits** immutable.
 - You can depend on different states in the same widget by inheritance hierarchy.
-- You can emit any state from any cubit, no need to make BLoC-to-BLoC Communication.
+- You can emit any state from any cubit, but it is not recommended.
 - No need to inject the **cubits** to the UI by the **BlocProvider**, with the ability to separate the **cubits** without the headache of taking care of the widget tree.
 - All cubits are owned by you, you can handle them in a DI framework as you need.
 
