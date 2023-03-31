@@ -133,7 +133,7 @@ class CounterDecrementState extends CounterStates {
   const CounterDecrementState(super.counter);
 }
 
-class CounterStatefulCubit extends StatefulCubit {
+class CounterStatefulCubit extends StatefulCubit<CounterStates> {
   const CounterStatefulCubit(this._repository);
 
   final CounterRepository _repository;
