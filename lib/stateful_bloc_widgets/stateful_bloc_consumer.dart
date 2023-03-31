@@ -18,6 +18,10 @@ class StatefulBlocConsumer<ConsumedState extends ExtendableState>
         return current is ConsumedState && current != previous;
       },
       builder: (BuildContext context, state) {
+        if (state is! ConsumedState && state is! _GlobalInitialState) {
+          state = initialState;
+        }
+
         return builder(
           context,
           state is _GlobalInitialState ? initialState : state as ConsumedState,
