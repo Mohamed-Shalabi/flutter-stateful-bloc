@@ -26,8 +26,6 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 ## TODO list:
 
-- Testing the new implementation of StatefulBlocListener.
 - Changing package name to stateful_cubit.
-- Implemeting StateObserver.
 - Making errors traceable.
 - Writing rich documentation.
