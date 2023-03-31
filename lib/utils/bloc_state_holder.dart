@@ -10,6 +10,9 @@ abstract class StateHolderInterface {
   StreamSubscription<ExtendableState> _listen(StateAction action);
 
   void _addState<State extends ExtendableState>(State state);
+
+  void _saveStateAfterEmit<State extends ExtendableState>(
+      Type superStateType, State state);
 }
 
 class _StateHolder implements StateHolderInterface {
@@ -33,9 +36,13 @@ class _StateHolder implements StateHolderInterface {
   @override
   void _addState<State extends ExtendableState>(State state) {
     _statesStreamController.add(state);
-    final superStates = state.superStates;
-    for (final superState in superStates) {
-      _lastStates[superState] = state;
-    }
+  }
+
+  @override
+  void _saveStateAfterEmit<State extends ExtendableState>(
+    Type superStateType,
+    State state,
+  ) {
+    _lastStates[superStateType] = state;
   }
 }
