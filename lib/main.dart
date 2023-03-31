@@ -113,7 +113,7 @@ abstract class CounterStates extends ExtendableState {
   const CounterStates(this.counter);
 
   @override
-  Type get superState => CounterStates;
+  List<Type> get superStates => [CounterStates];
 }
 
 class CounterInitialState extends CounterStates {

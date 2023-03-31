@@ -15,7 +15,7 @@ part 'utils/state_observer.dart';
 abstract class ExtendableState {
   const ExtendableState();
 
-  Type get superState;
+  List<Type> get superStates;
 }
 
 class _GlobalCubit extends Cubit<ExtendableState> {
@@ -28,18 +28,21 @@ class _GlobalCubit extends Cubit<ExtendableState> {
   @override
   // ignore: must_call_super
   void onChange(Change<ExtendableState> change) {
-    final superStateType = change.nextState.superState;
+    final superStatesTypes = change.nextState.superStates;
     final currentState = change.nextState;
+
+      for (final superStateType in superStatesTypes) {
     var oldSimilarState = stateHolder.lastStateOfSuperType(superStateType);
 
     oldSimilarState ??= _GlobalInitialState();
 
     final callback = stateObserver._getStateObserver(superStateType);
     callback(oldSimilarState, currentState);
+    }
   }
 }
 
 class _GlobalInitialState extends ExtendableState {
   @override
-  Type get superState => _GlobalInitialState;
+  List<Type> get superStates => [_GlobalInitialState];
 }

@@ -26,7 +26,7 @@ class _StateObserver implements StateObserverInterface {
   ) {
     if (kDebugMode) {
       print(
-        'Scope ${current.superState}: '
+        'Scope ${current.superStates}: '
         'Transitioning from ${previous.runtimeType} '
         'to ${current.runtimeType}',
       );

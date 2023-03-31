@@ -33,6 +33,9 @@ class _StateHolder implements StateHolderInterface {
   @override
   void _addState<State extends ExtendableState>(State state) {
     _statesStreamController.add(state);
-    _lastStates[state.superState] = state;
+    final superStates = state.superStates;
+    for (final superState in superStates) {
+      _lastStates[superState] = state;
+    }
   }
 }
