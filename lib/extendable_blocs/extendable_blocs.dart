@@ -1,18 +1,18 @@
 part of '../global_blocs.dart';
 
 @immutable
-abstract class _ExtendableStatefulBlocBase {
+abstract class _ExtendableStatefulBlocBase<State extends ExtendableState> {
   const _ExtendableStatefulBlocBase();
 
-  void emit(ExtendableState state);
+  void emit(State state);
 }
 
-class StatefulCubit extends _ExtendableStatefulBlocBase {
+class StatefulCubit<State extends ExtendableState> extends _ExtendableStatefulBlocBase<State> {
   const StatefulCubit();
 
   @override
   @nonVirtual
-  void emit(ExtendableState state) {
+  void emit(State state) {
     _statesStreamController.add(state);
   }
 }
