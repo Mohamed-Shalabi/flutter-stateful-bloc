@@ -34,7 +34,7 @@ There is also ***statefulBlocTest*** function that acts like ***blocTest*** in *
 ## NOTES:
 
 - All cubits and states must be immutable with const constructors.
-- The ***StatefulBlocConsumer*** won't rebuild except if the emiitted state is of its generic type or its children.
+- The ***StatefulBlocConsumer*** won't rebuild except if the emitted state is of its generic type or its children.
 - The package won't be published before completing development and testing, because it is still unstable.
 
 ## Examples:
