@@ -41,6 +41,5 @@ Comming soon.
 
 ## TODOs:
 
-- Writing test utilities.
 - Changing package name to stateful_cubit.
 - Writing rich documentation.
