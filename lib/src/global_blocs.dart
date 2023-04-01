@@ -1,15 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-part 'extendable_blocs/extendable_blocs.dart';
-part 'stateful_bloc_widgets/stateful_bloc_consumer.dart';
-part 'stateful_bloc_widgets/stateful_bloc_listener.dart';
-part 'stateful_bloc_widgets/stateful_bloc_provider.dart';
-part 'utils/bloc_state_holder.dart';
-part 'utils/state_observer.dart';
+part of '../stateful_bloc.dart';
 
 @immutable
 abstract class ExtendableState {
@@ -18,12 +7,21 @@ abstract class ExtendableState {
   List<Type> get superStates;
 }
 
+_GlobalCubit get _globalCubitInstance {
+  _globalCubit ??= _GlobalCubit();
+  return _globalCubit!;
+}
+
+_GlobalCubit? _globalCubit;
+
 class _GlobalCubit extends Cubit<ExtendableState> {
   _GlobalCubit() : super(_GlobalInitialState()) {
-    stateHolder._listen((state) {
+    _subscription = stateHolder._listen((state) {
       emit(state);
     });
   }
+
+  late final StreamSubscription<ExtendableState> _subscription;
 
   @override
   // ignore: must_call_super
@@ -40,6 +38,13 @@ class _GlobalCubit extends Cubit<ExtendableState> {
       callback(superStateType, oldSimilarState, currentState);
       stateHolder._saveStateAfterEmit(superStateType, currentState);
     }
+  }
+
+  @override
+  Future<void> close() async {
+    _subscription.cancel();
+    super.close();
+    _globalCubit = _GlobalCubit();
   }
 }
 

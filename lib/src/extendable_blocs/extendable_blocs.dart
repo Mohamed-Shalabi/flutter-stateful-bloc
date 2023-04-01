@@ -1,4 +1,4 @@
-part of '../global_blocs.dart';
+part of '../../stateful_bloc.dart';
 
 @immutable
 abstract class _ExtendableStatefulBlocBase<State extends ExtendableState> {

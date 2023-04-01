@@ -1,4 +1,4 @@
-part of '../global_blocs.dart';
+part of '../../stateful_bloc.dart';
 
 StateHolderInterface get stateHolder => _StateHolder.instance;
 

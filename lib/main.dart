@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'src/global_blocs.dart';
+import 'stateful_bloc.dart';
 
 final CounterStatefulCubit cubit = CounterStatefulCubit(
   CounterRepository(
@@ -114,6 +114,16 @@ abstract class CounterStates extends ExtendableState {
 
   @override
   List<Type> get superStates => [CounterStates];
+
+  @override
+  bool operator ==(Object other) =>
+      other is CounterStates && counter == other.counter;
+
+  @override
+  int get hashCode => Object.hash(counter, counter, 5);
+
+  @override
+  String toString() => '$runtimeType: $counter';
 }
 
 class CounterInitialState extends CounterStates {

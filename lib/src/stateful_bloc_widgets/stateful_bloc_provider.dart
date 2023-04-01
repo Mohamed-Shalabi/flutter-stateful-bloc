@@ -1,4 +1,4 @@
-part of '../global_blocs.dart';
+part of '../../stateful_bloc.dart';
 
 class StatefulBlocProvider extends StatelessWidget {
   const StatefulBlocProvider({
@@ -10,8 +10,8 @@ class StatefulBlocProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => _GlobalCubit(),
+    return BlocProvider.value(
+      value: _globalCubitInstance,
       child: app,
     );
   }
