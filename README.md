@@ -13,8 +13,6 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 ## Getting Started
 
-### To get started:
-
 - Wrap your app with ***StatefulBlocProvider***.
 - Create your states that extend ***ExtendableState***.
 - In your **super state** override **superStates** getter and add the current state type.
