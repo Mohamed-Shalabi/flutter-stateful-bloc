@@ -29,6 +29,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 ## Testing:
 
 For minimalization, you can test your **cubits** manually and check the **states** using **stateHolder**.
+Testing utilities are comming soon.
 
 ## NOTES:
 
@@ -38,5 +39,6 @@ For minimalization, you can test your **cubits** manually and check the **states
 
 ## TODOs:
 
+- Writing test utilities.
 - Changing package name to stateful_cubit.
 - Writing rich documentation.
