@@ -14,3 +14,4 @@ part 'src/stateful_bloc_widgets/stateful_bloc_provider.dart';
 part 'src/utils/bloc_state_holder.dart';
 part 'src/utils/state_observer.dart';
 part 'test/stateful_bloc_test.dart';
+part 'src/utils/state_mapper.dart';

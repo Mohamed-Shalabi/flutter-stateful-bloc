@@ -1,26 +1,30 @@
 part of '../stateful_bloc.dart';
 
-@immutable
-abstract class ExtendableState {
-  const ExtendableState();
-
-  List<Type> get superStates;
-}
-
-_GlobalCubit get _globalCubitInstance {
-  _globalCubit ??= _GlobalCubit();
+_GlobalCubit _getGlobalCubitInstance(
+    Map<Type, List<StateMapper>> stateMappers) {
+  _globalCubit ??= _GlobalCubit(stateMappers);
   return _globalCubit!;
 }
 
 _GlobalCubit? _globalCubit;
 
 class _GlobalCubit extends Cubit<ExtendableState> {
-  _GlobalCubit() : super(_GlobalInitialState()) {
+  _GlobalCubit(this.stateMappers) : super(_GlobalInitialState()) {
     _subscription = stateHolder._listen((state) {
       emit(state);
+      emitMappedStates(state);
     });
   }
 
+  void emitMappedStates(ExtendableState state) {
+    final functions = stateMappers[state.runtimeType] ?? [];
+    for (final function in functions) {
+      final mappedState = function(state);
+      emit(mappedState);
+    }
+  }
+
+  final Map<Type, List<StateMapper>> stateMappers;
   late final StreamSubscription<ExtendableState> _subscription;
 
   @override
@@ -44,7 +48,7 @@ class _GlobalCubit extends Cubit<ExtendableState> {
   Future<void> close() async {
     _subscription.cancel();
     super.close();
-    _globalCubit = _GlobalCubit();
+    _globalCubit = _GlobalCubit(stateMappers);
   }
 }
 

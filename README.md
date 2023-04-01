@@ -4,6 +4,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 - Ensuring that the UI gets data from the **states** only, not the cubit itself, by making all the **states** and **cubits** immutable.
 - You can depend on different states in the same widget by inheritance hierarchy.
+- You can map a state of certain type to a state of another type which will rebuild and listened by both widgets.
 - You can depend on **states** in any widget in the tree.
 - You can emit any state from any cubit, but it is not recommended.
 - No need to inject the **cubits** to the UI by the **BlocProvider**, with the ability to separate the **cubits** without the headache of taking care of the widget tree.
@@ -15,6 +16,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 - Wrap your app with ***StatefulBlocProvider***.
 - Create your states that extend ***ExtendableState***.
+- Create **stateMappers** in the ***StatefulBlocProvider*** constructor if you need to map certain states to other type.
 - In your **super state** override **superStates** getter and add the current state type.
 - You can add more **super states** to the **superStates** getter if you need to depend on multiple **super states** for the same widget.
 - Create your cubit that extends ***StatefulCubit***.

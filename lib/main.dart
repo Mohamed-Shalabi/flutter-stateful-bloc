@@ -18,6 +18,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StatefulBlocProvider(
+      stateMappers: {
+        CounterIncrementState: [
+          (state) {
+            state = state as CounterIncrementState;
+            return const ThatWordState();
+          },
+        ],
+        CounterDecrementState: [
+          (state) {
+            state = state as CounterDecrementState;
+            return const ThisWordState();
+          },
+        ],
+      },
       app: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -65,24 +79,27 @@ class MyHomePage extends StatelessWidget {
             );
           }
         },
-        body: StatefulBlocConsumer<CounterStates>(
-          initialState: const CounterInitialState(),
-          builder: (context, state) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              StatefulBlocConsumer<WordStates>(
+                initialState: const ThisWordState(),
+                builder: (context, state) => Text(
+                  'You have pushed the button ${state.word} many times:',
+                ),
+              ),
+              StatefulBlocConsumer<CounterStates>(
+                initialState: const CounterInitialState(),
+                builder: (context, state) {
+                  return Text(
                     '${state.counter}',
                     style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ],
+                  );
+                },
               ),
-            );
-          },
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -105,6 +122,23 @@ class MyHomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+abstract class WordStates extends ExtendableState {
+  final String word;
+
+  const WordStates(this.word);
+
+  @override
+  List<Type> get superStates => [WordStates];
+}
+
+class ThisWordState extends WordStates {
+  const ThisWordState() : super('this');
+}
+
+class ThatWordState extends WordStates {
+  const ThatWordState() : super('that');
 }
 
 abstract class CounterStates extends ExtendableState {

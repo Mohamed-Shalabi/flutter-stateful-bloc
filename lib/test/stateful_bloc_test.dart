@@ -6,6 +6,7 @@ void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
     State extends ExtendableState>(
   String description, {
   required StatefulBloc Function() build,
+  Map<Type, List<StateMapper>>? stateMappers,
   FutureOr<void> Function()? setUp,
   State Function()? seed,
   Function(StatefulBloc bloc)? act,
@@ -23,7 +24,7 @@ void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
     setUp: setUp,
     build: () {
       statefulBloc = build();
-      return _globalCubitInstance;
+      return _getGlobalCubitInstance(stateMappers ?? {});
     },
     seed: seed,
     act: (_) {

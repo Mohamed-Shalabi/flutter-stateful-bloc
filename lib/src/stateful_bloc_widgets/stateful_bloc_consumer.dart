@@ -15,16 +15,18 @@ class StatefulBlocConsumer<ConsumedState extends ExtendableState>
   Widget build(BuildContext context) {
     return BlocBuilder<_GlobalCubit, ExtendableState>(
       buildWhen: (previous, current) {
-        return current is ConsumedState && current != previous;
+        return current is ConsumedState && current != previous ||
+            current is _GlobalInitialState;
       },
       builder: (BuildContext context, state) {
-        if (state is! ConsumedState && state is! _GlobalInitialState) {
+        if (state is _GlobalInitialState) {
           state = initialState;
+          stateHolder._addState(state);
         }
 
         return builder(
           context,
-          state is _GlobalInitialState ? initialState : state as ConsumedState,
+          state as ConsumedState,
         );
       },
     );
