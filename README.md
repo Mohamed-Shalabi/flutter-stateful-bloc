@@ -28,8 +28,8 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 ## Testing:
 
-For minimalization, you can test your **cubits** manually and check the **states** using **stateHolder**.
-There is also ***statefulBlocTest*** function that acts like ***blocTest*** in **bloc_test** package.
+- For minimalization, you can test your **cubits** manually and check the **states** using **stateHolder**.
+- There is also ***statefulBlocTest*** function that acts like ***blocTest*** in **bloc_test** package.
 
 ## NOTES:
 
