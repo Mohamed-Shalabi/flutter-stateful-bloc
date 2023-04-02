@@ -1,16 +1,24 @@
 # stateful_bloc
 
-A Flutter project that wraps the `flutter_bloc` package to easify working with it by:
+A Flutter project that wraps the `flutter_bloc` package to easify working with it.
 
-- Ensuring that the UI gets data from the **states** only, not the cubit itself, by making all the **states** and **cubits** immutable.
-- You can depend on different states in the same widget by inheritance hierarchy.
-- You can map a state of certain type to a state of another type which will rebuild and listened by both widgets.
-- You can depend on **states** in any widget in the tree.
-- You can emit any state from any cubit, but it is not recommended.
-- No need to inject the **cubits** to the UI by the **BlocProvider**, with the ability to separate the **cubits** without the headache of taking care of the widget tree.
-- All cubits are owned by you, you can handle them in a DI framework as you need.
-- You can trace any **super state** changes using **stateObserver**.
-- You can get the last state of certain **super type** which make testing available.
+## Overview
+
+### To easify working with **cubits** and **states**, we provided:
+
+- Easifying working with states, by:
+    - Making UI rebuilding depend on **states** only, not the **cubit** itself.
+    - You can depend on **states** in any widget in the tree.
+    - You can depend on different states in the same widget.
+    - You can map a state of certain type to a state of another type which will rebuild and be listened by both widgets.
+    - All cubits are owned by you, you can handle them in a DI framework as you need.
+    - You can trace any **state** changes.
+    - You can get the last state of certain **super type**.
+
+- Making **cubits** more flexible, through:
+    - Ensuring that the UI gets data from the **states** only, not the cubit itself.
+    - All the **cubits** should be immutable.
+    - No need to inject the **cubits** to the UI by the **BlocProvider**, with the ability to separate the **cubits** without the headache of taking care of the widget tree.
 
 ## Getting Started
 
