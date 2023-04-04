@@ -309,7 +309,7 @@ final lastTextState = stateHolder.lastStateOfSuperType(TextState);
 
 ## NOTES
 
-- All cubits and states should be immutable with const constructors.
+- All cubits and states should be immutable.
 - The ***StatefulBlocConsumer*** won't rebuild except if the emitted state is of its generic type or its children.
 - The package won't be published before completing development and testing, because it is still unstable.
 

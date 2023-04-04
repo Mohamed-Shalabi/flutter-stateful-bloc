@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'stateful_bloc.dart';
 
-// This example is outdated
-
 final CounterStatefulCubit cubit = CounterStatefulCubit(
   CounterRepository(
     CounterDataSource(),
@@ -24,13 +22,13 @@ class MyApp extends StatelessWidget {
         CounterIncrementState: [
           (state) {
             state = state as CounterIncrementState;
-            return const ThatWordState();
+            return ThatWordState();
           },
         ],
         CounterDecrementState: [
           (state) {
             state = state as CounterDecrementState;
-            return const ThisWordState();
+            return ThisWordState();
           },
         ],
       },
@@ -86,13 +84,13 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               StatefulBlocConsumer<WordStates>(
-                initialState: const ThisWordState(),
+                initialState: ThisWordState(),
                 builder: (context, state) => Text(
                   'You have pushed the button ${state.word} many times:',
                 ),
               ),
               StatefulBlocConsumer<CounterStates>(
-                initialState: const CounterInitialState(),
+                initialState: CounterInitialState(),
                 builder: (context, state) {
                   return Text(
                     '${state.counter}',
@@ -126,52 +124,51 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-abstract class WordStates extends ExtendableState {
-  final String word;
-
-  const WordStates(this.word);
+abstract class WordStates implements ExtendableState {
+  String get word;
 
   @override
   List<Type> get superStates => [WordStates];
 }
 
 class ThisWordState extends WordStates {
-  const ThisWordState() : super('this');
+  @override
+  String get word => 'this';
 }
 
 class ThatWordState extends WordStates {
-  const ThatWordState() : super('that');
+  @override
+  String get word => 'that';
 }
 
-abstract class CounterStates extends ExtendableState {
-  final int counter;
-
-  const CounterStates(this.counter);
+abstract class CounterStates implements ExtendableState {
+  int get counter;
 
   @override
   List<Type> get superStates => [CounterStates];
-
-  @override
-  bool operator ==(Object other) =>
-      other is CounterStates && counter == other.counter;
-
-  @override
-  int get hashCode => Object.hash(counter, counter, 5);
-
-  @override
-  String toString() => '$runtimeType: $counter';
 }
 
 class CounterInitialState extends CounterStates {
-  const CounterInitialState() : super(0);
+  @override
+  int get counter => 0;
 }
 
 class CounterIncrementState extends CounterStates {
-  const CounterIncrementState(super.counter);
+  final int _counterValue;
+
+  CounterIncrementState(this._counterValue);
+
+  @override
+  int get counter => _counterValue;
 }
 
 class CounterDecrementState extends CounterStates {
-  const CounterDecrementState(super.counter);
+  final int _counterValue;
+
+  CounterDecrementState(this._counterValue);
+
+  @override
+  int get counter => _counterValue;
 }
 
 class CounterStatefulCubit extends StatefulCubit<CounterStates> {
