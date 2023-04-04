@@ -104,7 +104,9 @@ class ConnectionCubit extends StatefulCubit<ConnectionStates> {
   }
 }
 ```
-- Wrap your UI that depends on the cubit with ***StatefulBlocConsumer***. You will need to provide an initial state.
+- Wrap your UI that depends on the cubit with ***StatefulBlocConsumer***. 
+
+You will need to provide an initial state.
 ```dart
 @override
 Widget build(BuildContext context) {
@@ -230,7 +232,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-### State mappers
+### State Mappers
 Imagine that you need to emit a concrete **state** of type ***A*** when a concrete state of type ***B*** is emitted.
 
 If these **states** hold data, they cannot be mixed to each other.
@@ -239,7 +241,6 @@ To overcome this issue, there are **stateMappers**!
 
 Modify the `StatefulBlocProvider` to be:
 
-```dart
 ```dart
 @override
 Widget build(BuildContext context) {
