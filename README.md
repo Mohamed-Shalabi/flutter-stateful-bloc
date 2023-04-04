@@ -243,8 +243,8 @@ Modify the `StatefulBlocProvider` to be:
 Widget build(BuildContext context) {
   return StatefulBlocProvider(
     stateMappers: [
-      B: (A a) => B(a.data),
-      A: (B b) => A(b.data),
+      A: [(A a) => B(a.data)],
+      B: [(B b) => A(b.data)],
     ],
     app: ...
   );
