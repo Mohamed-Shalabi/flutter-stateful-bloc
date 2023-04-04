@@ -37,7 +37,8 @@ class _GlobalCubit extends Cubit<SuperState> {
   /// It is stored in a member variable to be able to cancel it in [close].
   late final StreamSubscription<SuperState> _subscription;
 
-  /// Emits other states when the parent state is emitted and saves the state in the last states.
+  /// Saves the lase emitted state from [change] to the [stateHolder].
+  /// executes [stateObserver] functions.
   @override
   // ignore: must_call_super
   void onChange(Change<SuperState> change) {
