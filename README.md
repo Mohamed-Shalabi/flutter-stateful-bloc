@@ -191,12 +191,12 @@ abstract class TextState implements SuperState {
 ```
 - Modify old **super states**:
 ```dart
-abstract class MessagingStates with TextState {
+abstract class MessagingStates implements TextState {
   @override
   List<Type> get superStates => [MessagingStates, TextState];
 }
 
-abstract class ConnectionStates with TextState {
+abstract class ConnectionStates implements TextState {
   final bool isConnected;
 
   // constructor..
@@ -323,6 +323,7 @@ final lastTextState = stateHolder.lastStateOfSuperType(TextState);
 
 ## NOTES
 
+- **Super states** must be abstract classes that ***implements(not mixes or extends)*** other **super states**.
 - All cubits and states should be immutable.
 - The ***StatefulBlocConsumer*** won't rebuild except if the emitted state is of its generic type or its children.
 - The package won't be published before completing development and testing, because it is still unstable.
