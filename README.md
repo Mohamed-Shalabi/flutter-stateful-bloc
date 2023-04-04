@@ -53,10 +53,10 @@ Widget build(BuildContext context) {
   );
 }
 ```
-- Create your **super state** that implements ***ExtendableState***, and add its type to the **superStates** getter.
+- Create your **super state** that implements ***SuperState***, and add its type to the **superStates** getter.
 - Make getters for the data you need, it is preferred to use getters over class members.
 ```dart
-abstract class ConnectionStates implements ExtendableState {
+abstract class ConnectionStates implements SuperState {
   bool get isConnected;
 
   @override
@@ -121,7 +121,7 @@ return Scaffold(
   appBar: AppBar(
     title: const Text('Home'),
   ),
-  body: StatefulBlocListener<ExtendableState>(
+  body: StatefulBlocListener<SuperState>(
     listener: (context, state) {
       if (state is ConnectionConnectedState) {
         context.showSnackBar('Connected');
@@ -148,7 +148,7 @@ The logic of showing different states is done outside of the UI, but the `Text` 
 
 - The messaging states
 ```dart
-abstract class MessagingStates implements ExtendableState {
+abstract class MessagingStates implements SuperState {
   @override
   List<Type> get superStates => [MessagingStates];
 }
@@ -170,7 +170,7 @@ class MessagingFailedState extends MessagingStates {
 
 - Create a new **super state**.
 ```dart
-abstract class TextState implements ExtendableState {
+abstract class TextState implements SuperState {
   String get text;
 
   @override
@@ -263,8 +263,8 @@ You can make a single mapper.
 ```dart
   stateObserver.setDefaultStateObserver((
     Type superState,
-    ExtendableState previous,
-    ExtendableState current,
+    SuperState previous,
+    SuperState current,
   ) {
     if (kDebugMode) {
       print(
@@ -281,8 +281,8 @@ stateObserver.setStateObserver(
   MessagingStates, 
   (
     Type superState,
-    ExtendableState previous,
-    ExtendableState current,
+    SuperState previous,
+    SuperState current,
   ) {
     if (kDebugMode) {
       print(

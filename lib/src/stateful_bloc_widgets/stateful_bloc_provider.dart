@@ -1,5 +1,6 @@
 part of '../../stateful_bloc.dart';
 
+/// A widget that adds the features of the package to the entire application.
 class StatefulBlocProvider extends StatelessWidget {
   const StatefulBlocProvider({
     super.key,

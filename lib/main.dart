@@ -124,7 +124,7 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-abstract class WordStates implements ExtendableState {
+abstract class WordStates implements SuperState {
   String get word;
 
   @override
@@ -141,7 +141,7 @@ class ThatWordState extends WordStates {
   String get word => 'that';
 }
 
-abstract class CounterStates implements ExtendableState {
+abstract class CounterStates implements SuperState {
   int get counter;
 
   @override

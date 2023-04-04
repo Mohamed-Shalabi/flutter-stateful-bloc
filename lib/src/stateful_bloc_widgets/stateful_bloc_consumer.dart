@@ -1,6 +1,7 @@
 part of '../../stateful_bloc.dart';
 
-class StatefulBlocConsumer<ConsumedState extends ExtendableState>
+/// A widget that rebuilds its child when a new state of type [ConsumedState] is emitted.
+class StatefulBlocConsumer<ConsumedState extends SuperState>
     extends StatelessWidget {
   const StatefulBlocConsumer({
     super.key,
@@ -13,7 +14,7 @@ class StatefulBlocConsumer<ConsumedState extends ExtendableState>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<_GlobalCubit, ExtendableState>(
+    return BlocBuilder<_GlobalCubit, SuperState>(
       buildWhen: (previous, current) {
         return current is ConsumedState && current != previous ||
             current is _GlobalInitialState;
@@ -33,7 +34,7 @@ class StatefulBlocConsumer<ConsumedState extends ExtendableState>
   }
 }
 
-typedef StateWidgetBuilder<State extends ExtendableState> = Widget Function(
+typedef StateWidgetBuilder<State extends SuperState> = Widget Function(
   BuildContext context,
   State state,
 );

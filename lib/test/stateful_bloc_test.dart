@@ -3,7 +3,7 @@ part of '../stateful_bloc.dart';
 @isTest
 // ignore: library_private_types_in_public_api
 void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
-    State extends ExtendableState>(
+    State extends SuperState>(
   String description, {
   required StatefulBloc Function() build,
   Map<Type, List<StateMapper>>? stateMappers,
@@ -19,7 +19,7 @@ void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
   dynamic tags,
 }) {
   late final StatefulBloc statefulBloc;
-  blocTest<_GlobalCubit, ExtendableState>(
+  blocTest<_GlobalCubit, SuperState>(
     description,
     setUp: setUp,
     build: () {

@@ -1,45 +1,51 @@
 part of '../../stateful_bloc.dart';
 
+typedef StateAction = void Function(SuperState);
+
+/// The global instance of [StateHolderInterface].
 StateHolderInterface get stateHolder => _StateHolder.instance;
 
-typedef StateAction = void Function(ExtendableState);
-
+/// This is the interface used by the users to get the last state of a certain type.
+/// It is used by the package to
+/// - [_listen] to the states in the [_GlobalCubit].
+/// - [_addState] in the [_ExtendableStatefulBlocBase.emit].
+/// - [_saveStateAfterEmit] to save the last state of certain type.
 abstract class StateHolderInterface {
-  ExtendableState? lastStateOfSuperType(Type type);
+  SuperState? lastStateOfSuperType(Type type);
 
-  StreamSubscription<ExtendableState> _listen(StateAction action);
+  StreamSubscription<SuperState> _listen(StateAction action);
 
-  void _addState<State extends ExtendableState>(State state);
+  void _addState<State extends SuperState>(State state);
 
-  void _saveStateAfterEmit<State extends ExtendableState>(
+  void _saveStateAfterEmit<State extends SuperState>(
       Type superStateType, State state);
 }
 
 class _StateHolder implements StateHolderInterface {
   static _StateHolder instance = _StateHolder._();
-  final Map<Type, ExtendableState> _lastStates = {};
-  final StreamController<ExtendableState> _statesStreamController =
+  final Map<Type, SuperState> _lastStates = {};
+  final StreamController<SuperState> _statesStreamController =
       StreamController.broadcast();
 
   _StateHolder._();
 
   @override
-  ExtendableState? lastStateOfSuperType(Type type) {
+  SuperState? lastStateOfSuperType(Type type) {
     return _lastStates[type];
   }
 
   @override
-  StreamSubscription<ExtendableState> _listen(StateAction action) {
+  StreamSubscription<SuperState> _listen(StateAction action) {
     return _statesStreamController.stream.listen(action);
   }
 
   @override
-  void _addState<State extends ExtendableState>(State state) {
+  void _addState<State extends SuperState>(State state) {
     _statesStreamController.add(state);
   }
 
   @override
-  void _saveStateAfterEmit<State extends ExtendableState>(
+  void _saveStateAfterEmit<State extends SuperState>(
     Type superStateType,
     State state,
   ) {

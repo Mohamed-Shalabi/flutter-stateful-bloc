@@ -1,6 +1,7 @@
 part of '../../stateful_bloc.dart';
 
-class StatefulBlocListener<ListenedState extends ExtendableState>
+/// A widget that executes [listener] function when a new state of type [ListenedState] is emitted.
+class StatefulBlocListener<ListenedState extends SuperState>
     extends StatelessWidget {
   const StatefulBlocListener({
     super.key,
@@ -17,7 +18,7 @@ class StatefulBlocListener<ListenedState extends ExtendableState>
       throw 'You must enter the states you need to listen to';
     }
 
-    return BlocListener<_GlobalCubit, ExtendableState>(
+    return BlocListener<_GlobalCubit, SuperState>(
       listenWhen: (previous, current) {
         return current is ListenedState && current != previous;
       },
@@ -31,5 +32,5 @@ class StatefulBlocListener<ListenedState extends ExtendableState>
   }
 }
 
-typedef StateWidgetListener<ListenedState extends ExtendableState> = void
+typedef StateWidgetListener<ListenedState extends SuperState> = void
     Function(BuildContext context, ListenedState state);

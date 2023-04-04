@@ -1,18 +1,23 @@
 part of '../../stateful_bloc.dart';
 
-StateObserverInterface get stateObserver => _StateObserver.instance;
-
 typedef StateChanged = void Function(
   Type superState,
-  ExtendableState previous,
-  ExtendableState current,
+  SuperState previous,
+  SuperState current,
 );
 
+/// The global instance of [StateObserverInterface]
+StateObserverInterface get stateObserver => _StateObserver.instance;
+
+/// This interface is used to trace the states of the application.
 abstract class StateObserverInterface {
+  /// This method sets the default function that executes when a new state is emitted.
   void setDefaultStateObserver(StateChanged stateChanged);
 
+  /// This method sets the  function that executes when a new state of type [Type] is emitted.
   void setStateObserver(Type type, StateChanged stateChanged);
 
+  /// Gets the state observer of type [Type].
   StateChanged _getStateObserver(Type type);
 }
 
@@ -23,8 +28,8 @@ class _StateObserver implements StateObserverInterface {
 
   StateChanged _defaultStateObserver = (
     Type superState,
-    ExtendableState previous,
-    ExtendableState current,
+    SuperState previous,
+    SuperState current,
   ) {
     if (kDebugMode) {
       print(
