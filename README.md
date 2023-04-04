@@ -21,7 +21,7 @@ The main reason for these restrictions is that you can consume the **blocs** not
 This enables **state mixing** feature, which means that:
 
 - You can consume states sent from multiple **blocs**.
-- No UI-dependent **bloc** design, as the **blocs** become only a set of methods that emit states as they are immutable.
+- No UI-dependent **bloc** design, as the **bloc** become only a set of methods that emit states as they are immutable.
 - There are **stateMappers** that enable emitting some states when others are emitted.
 - You can get the last state of certain **super type**.
 
