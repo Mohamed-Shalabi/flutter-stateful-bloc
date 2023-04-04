@@ -196,7 +196,7 @@ abstract class MessagingStates implements TextState {
   List<Type> get superStates => [MessagingStates, TextState];
 }
 
-abstract class ConnectionStates implements TextState {
+abstract class ConnectionStates with TextState {
   final bool isConnected;
 
   // constructor..
@@ -210,7 +210,7 @@ abstract class ConnectionStates implements TextState {
 ```
 - Now, you will need to implement the text getter in the concrete `MessagingStates`
 ```dart
-class MessagingSuccessState extends MessagingStates {
+class MessagingSuccessState with MessagingStates {
   final String message;
 
   // constructor..
@@ -219,7 +219,7 @@ class MessagingSuccessState extends MessagingStates {
   String get text => message;
 }
 
-class MessagingFailedState extends MessagingStates {
+class MessagingFailedState with MessagingStates {
   final String errorMessage;
 
   // constructor..
@@ -324,6 +324,7 @@ final lastTextState = stateHolder.lastStateOfSuperType(TextState);
 ## NOTES
 
 - **Super states** must be abstract classes that ***implements(not mixes or extends)*** other **super states**.
+- If you cannot mix a **super state** in a **concrete state**, then convert all constructor fields in the **super state** to getters.
 - All cubits and states should be immutable.
 - The ***StatefulBlocConsumer*** won't rebuild except if the emitted state is of its generic type or its children.
 - The package won't be published before completing development and testing, because it is still unstable.
