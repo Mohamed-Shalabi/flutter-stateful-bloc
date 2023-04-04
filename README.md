@@ -4,21 +4,41 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 ## Overview
 
-### To easify working with **cubits** and **states**, we provided:
+### The BLoC pattern has some restrictions, like:
 
-- Easifying working with states, by:
-    - Making UI rebuilding depend on **states** only, not the **cubit** itself.
-    - You can depend on **states** in any widget in the tree.
-    - You can depend on different states in the same widget.
-    - You can map a state of certain type to a state of another type which will rebuild and be listened by both widgets.
-    - All cubits are owned by you, you can handle them in a DI framework as you need.
-    - You can trace any **state** changes.
-    - You can get the last state of certain **super type**.
+- UI may affect **bloc** design, by:
+    - You need to divide a **bloc** to multiple **blocs** to emit multiple **states**, or you will suffer from much boilerplate code.
+    - You cannot depend on the same **states** from multiple **blocs**, which lead to merging **blocs** or other boilerplate code.
+- **blocs** are not immutable, you can save data in them which breaks the pattern.
+- You must write much boilerplate code to communicate with other **blocs** in the UI layer.
 
-- Making **cubits** more flexible, through:
-    - Ensuring that the UI gets data from the **states** only, not the cubit itself.
-    - All the **cubits** should be immutable.
-    - No need to inject the **cubits** to the UI by the **BlocProvider**, with the ability to separate the **cubits** without the headache of taking care of the widget tree.
+### Solution
+
+The main reason for these restrictions is that you can consume the **blocs** not the **states**.
+
+You can consume the **states** themselves independently of **blocs**.
+This enables **state inheritance** feature, which means that:
+
+- You can consume states sent from multiple **blocs**.
+
+- No UI-dependent **bloc** design, as:
+    - you can emit different **states** from the same **bloc**.
+    - you can consume the same **state** that is emitted by different **blocs**.
+    - You can consume some of the **states** of the same **bloc** without much boilerplate.
+
+- There are **stateMappers** that enable emitting some states when others are emitted.
+
+- You can get the last state of certain **super type**.
+
+
+Other advantage is that **blocs** are immutable, so:
+
+- **States** are stored totally outside of the **blocs**.
+
+- No data is saved in the **blocs**, you get the data from outside the **blocs** and send them to the **states**.
+
+
+Finally, **blocs** no longer depend on `BuildContext`. So, all **blocs** can be handled in your DI framework freely.
 
 ## Getting Started
 
@@ -48,8 +68,3 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 ## Examples:
 
 Comming soon.
-
-## TODOs:
-
-- Changing package name to stateful_cubit.
-- Writing rich documentation.
