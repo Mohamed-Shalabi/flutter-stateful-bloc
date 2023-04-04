@@ -7,11 +7,8 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 ### The BLoC pattern has some restrictions, like:
 
 - UI may affect **bloc** design, by:
-
     - You need to divide a **bloc** to multiple **blocs** to emit multiple **states**, or you will suffer from much boilerplate code.
-
     - You cannot depend on the same **states** from multiple **blocs**, which lead to merging **blocs** or other boilerplate code.
-
 
 - **blocs** are not immutable, you can save data in them which breaks the pattern.
 
@@ -35,13 +32,11 @@ This enables **state inheritance** feature, which means that:
 
 - You can get the last state of certain **super type**.
 
-
 Other advantage is that **blocs** are immutable, so:
 
 - **States** are stored totally outside of the **blocs**.
 
 - No data is saved in the **blocs**, you get the data from outside the **blocs** and send them to the **states**.
-
 
 Finally, **blocs** no longer depend on `BuildContext`. So, all **blocs** can be handled in your DI framework freely.
 
