@@ -146,7 +146,7 @@ Imagine that the previous `Text` widget shows a message for 3 seconds when sendi
 
 The logic of showing different states is done outside of the UI, but the `Text` widget needs to consume different states now.
 
-- The messageing states
+- The messaging states
 ```dart
 abstract class MessagingStates implements ExtendableState {
   @override
