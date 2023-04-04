@@ -107,7 +107,7 @@ class ConnectionCubit extends StatefulCubit<ConnectionStates> {
 @override
 Widget build(BuildContext context) {
   return StatefulBlocConsumer<ConnectionStates>(
-    initialState: stateHolder.lastStateOfSuperType(ConnectionStates) ?? ConnectionDisconnectedState(),
+    initialState: ConnectionDisconnectedState(),
     builder: (BuildContext context, ConnectionStates state) {
       return Text('Connected: ${state.isConnected}');
     },
