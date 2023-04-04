@@ -103,18 +103,30 @@ class ConnectionCubit extends StatefulCubit<ConnectionStates> {
 ```
 - Wrap your UI that depends on the cubit with ***StatefulBlocConsumer***. 
 
-You will need to provide an initial state.
 ```dart
 @override
 Widget build(BuildContext context) {
   return StatefulBlocConsumer<ConnectionStates>(
-    initialState: ConnectionDisconnectedState(),
+    initialState: stateHolder.lastStateOfSuperType(ConnectionStates) ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, ConnectionStates state) {
       return Text('Connected: ${state.isConnected}');
     },
   );
 }
 ```
+You will need to provide an initial state. You can get the last emitted state of your **super type** like this:
+```dart
+@override
+Widget build(BuildContext context) {
+  return StatefulBlocConsumer<ConnectionStates>(
+    initialState: stateHolder.lastStateOfSuperType(ConnectionStates) ?? ConnectionDisconnectedState(),
+    builder: (BuildContext context, ConnectionStates state) {
+      return Text('Connected: ${state.isConnected}');
+    },
+  );
+}
+```
+
 - Wrap the body of the **Scaffold** with ***StatefulBlocListener*** to listen to states (for example, to show messages).
 ```dart
 return Scaffold(
@@ -221,7 +233,7 @@ class MessagingFailedState extends MessagingStates {
 @override
 Widget build(BuildContext context) {
   return StatefulBlocConsumer<TextStates>(
-    initialState: ConnectionDisconnectedState(),
+    initialState: stateHolder.lastStateOfSuperType(TextStates) ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, TextStates state) {
       return Text(state.text);
     },
