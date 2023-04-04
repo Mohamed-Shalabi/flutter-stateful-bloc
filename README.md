@@ -255,6 +255,8 @@ Now, any state of type ***A***, which is concrete, will emit a state of type ***
 
 You can make a single mapper.
 
+***NOTE:*** **state mappers** work on a single level mapping. So, the mapped states won't be mapped again and again.
+
 ## Utils
 
 ### State Observer
