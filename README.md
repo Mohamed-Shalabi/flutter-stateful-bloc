@@ -7,7 +7,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 **The BLoC pattern has some restrictions, like:**
 
 - UI may affect **bloc** design
-    - You need to divide a **bloc** to multiple **blocs** to emit multiple **states**, or you will suffer from much boilerplate code.
+    - You need to divide a **bloc** to multiple **blocs** to emit multiple **states** if they are not physically dependent even if they are logically dependent, or you will suffer from much boilerplate code.
     - You cannot depend on the same **states** from multiple **blocs**, which lead to merging **blocs** or other boilerplate code.
 - **blocs** are not immutable, you can save data in them which is not safe and breaks the pattern.
 - You must write much boilerplate code to communicate with other **blocs** in the UI layer.
