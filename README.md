@@ -9,7 +9,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 - UI may affect **bloc** design
     - You need to divide a **bloc** to multiple **blocs** to emit multiple **states**, or you will suffer from much boilerplate code.
     - You cannot depend on the same **states** from multiple **blocs**, which lead to merging **blocs** or other boilerplate code.
-- **blocs** are not immutable, you can save data in them which is not safa and breaks the pattern.
+- **blocs** are not immutable, you can save data in them which is not safe and breaks the pattern.
 - You must write much boilerplate code to communicate with other **blocs** in the UI layer.
 
 ### Solution
@@ -26,9 +26,11 @@ This enables **state mixing** feature, which means that:
     - You can consume some of the **states** of the same **bloc** without much boilerplate.
 - There are **stateMappers** that enable emitting some states when others are emitted.
 - You can get the last state of certain **super type**.
+
 Other advantage is that our **blocs** are immutable, so:
 - **States** are stored totally outside of the **blocs**.
 - No data is saved in the **blocs**, you get the data from outside the **blocs** and send them to the **states**.
+
 Finally, **blocs** no longer depend on `BuildContext`. So, all **blocs** can be handled in your DI framework freely.
 
 ## Usage
@@ -108,7 +110,7 @@ Widget build(BuildContext context) {
   return StatefulBlocConsumer<ConnectionStates>(
     initialState: ConnectionDisconnectedState(),
     builder: (BuildContext context, ConnectionStates state) {
-      return Text('Connected: $state.isConnected');
+      return Text('Connected: ${state.isConnected}');
     },
   );
 }
@@ -140,7 +142,8 @@ And you are done!
 
 ### State Mixing
 
-Imagine that the previous `Text` widget shows a message for 3 seconds when sending messages fails or succeeds, it should consume the states:
+Imagine that the previous `Text` widget shows a message for 3 seconds when sending messages fails or succeeds.
+
 The logic of showing different states is done outside of the UI, but the `Text` widget needs to consume different states now.
 
 - The messageing states
@@ -202,9 +205,6 @@ class MessagingSuccessState extends MessagingStates {
 
   @override
   String get text => message;
-
-  @override
-  String get text => message;
 }
 
 class MessagingFailedState extends MessagingStates {
@@ -214,12 +214,9 @@ class MessagingFailedState extends MessagingStates {
 
   @override
   String get text => errorMessage;
-
-  @override
-  String get text => errorMessage;
 }
 ```
-- Finally, go edit the widget to consume the new **super state**
+- Finally, edit the widget to consume the new **super state**
 ```dart
 @override
 Widget build(BuildContext context) {
@@ -234,7 +231,9 @@ Widget build(BuildContext context) {
 
 ### State mappers
 Imagine that you need to emit a concrete **state** of type ***A*** when a concrete state of type ***B*** is emitted.
+
 If these **states** hold data, they cannot be mixed to each other.
+
 To overcome this issue, there are **stateMappers**!
 
 Modify the `StatefulBlocProvider` to be:
@@ -254,6 +253,7 @@ Widget build(BuildContext context) {
 ```
 
 Now, any state of type ***A***, which is concrete, will emit a state of type ***B*** and vice versa.
+
 You can make a single mapper.
 
 ## Utils
@@ -303,17 +303,17 @@ stateObserver.setStateObserver(
 final lastTextState = stateHolder.lastStateOfSuperType(TextState);
 ```
 
-## Testing:
+## Testing
 
 - For minimalization, you can test your **cubits** manually and check the **states** using **stateHolder**.
 - There is also ***statefulBlocTest*** function that acts like ***blocTest*** in **bloc_test** package.
 
-## NOTES:
+## NOTES
 
 - All cubits and states should be immutable with const constructors.
 - The ***StatefulBlocConsumer*** won't rebuild except if the emitted state is of its generic type or its children.
 - The package won't be published before completing development and testing, because it is still unstable.
 
-## Examples:
+## Examples
 
 Comming soon.
