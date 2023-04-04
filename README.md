@@ -16,7 +16,8 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 The main reason for these restrictions is that you can consume the **blocs** not the **states**.
 
-You can consume the **states** themselves independently of **blocs**.
+`flutter_stateful_bloc` lets you consume the **states** themselves independently of **blocs**.
+
 This enables **state mixing** feature, which means that:
 
 - You can consume states sent from multiple **blocs**.
