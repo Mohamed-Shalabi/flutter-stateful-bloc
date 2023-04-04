@@ -4,7 +4,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 
 ## Overview
 
-### The BLoC pattern has some restrictions, like:
+**The BLoC pattern has some restrictions, like:**
 
 - UI may affect **bloc** design
     - You need to divide a **bloc** to multiple **blocs** to emit multiple **states**, or you will suffer from much boilerplate code.
