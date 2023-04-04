@@ -9,9 +9,7 @@ A Flutter project that wraps the `flutter_bloc` package to easify working with i
 - UI may affect **bloc** design
     - You need to divide a **bloc** to multiple **blocs** to emit multiple **states**, or you will suffer from much boilerplate code.
     - You cannot depend on the same **states** from multiple **blocs**, which lead to merging **blocs** or other boilerplate code.
-
 - **blocs** are not immutable, you can save data in them which is not safa and breaks the pattern.
-
 - You must write much boilerplate code to communicate with other **blocs** in the UI layer.
 
 ### Solution
@@ -22,22 +20,15 @@ You can consume the **states** themselves independently of **blocs**.
 This enables **state mixing** feature, which means that:
 
 - You can consume states sent from multiple **blocs**.
-
 - No UI-dependent **bloc** design, as:
     - You can emit different **states** from the same **bloc**.
     - You can consume the same **state** that is emitted by different **blocs**.
     - You can consume some of the **states** of the same **bloc** without much boilerplate.
-
 - There are **stateMappers** that enable emitting some states when others are emitted.
-
 - You can get the last state of certain **super type**.
-
 Other advantage is that our **blocs** are immutable, so:
-
 - **States** are stored totally outside of the **blocs**.
-
 - No data is saved in the **blocs**, you get the data from outside the **blocs** and send them to the **states**.
-
 Finally, **blocs** no longer depend on `BuildContext`. So, all **blocs** can be handled in your DI framework freely.
 
 ## Usage
