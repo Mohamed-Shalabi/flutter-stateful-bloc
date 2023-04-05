@@ -1,6 +1,6 @@
 # stateful_bloc
 
-A Flutter project that wraps the `flutter_bloc` package to easify working with it.
+A Flutter package that wraps the `flutter_bloc` package to easify working with it.
 
 ## Overview
 
