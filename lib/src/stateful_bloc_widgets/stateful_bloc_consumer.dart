@@ -1,4 +1,4 @@
-part of '../../../stateful_bloc_parts.dart';
+part of '../../flutter_stateful_bloc.dart';
 
 /// A widget that rebuilds its child when a new state of type [ConsumedState] is emitted.
 class StatefulBlocConsumer<ConsumedState extends SuperState>

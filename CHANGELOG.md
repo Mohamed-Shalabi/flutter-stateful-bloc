@@ -10,6 +10,10 @@
 
 * Formatted unformatted files.
 
-## 0.0.3-beta
+## 0.0.4-beta
 
 * Added an example.
+
+## 0.0.5-beta
+
+* Added ObjectProcider<T>.

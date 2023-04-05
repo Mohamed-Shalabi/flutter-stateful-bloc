@@ -1,4 +1,4 @@
-part of '../../stateful_bloc_parts.dart';
+part of '../../flutter_stateful_bloc.dart';
 
 /// A class that is implemented by the states.
 /// Override [superStates] with the abstract class name and its parents.

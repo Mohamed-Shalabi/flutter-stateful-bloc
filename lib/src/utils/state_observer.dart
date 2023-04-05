@@ -1,4 +1,4 @@
-part of '../../stateful_bloc_parts.dart';
+part of '../../flutter_stateful_bloc.dart';
 
 typedef StateChanged = void Function(
   Type superState,

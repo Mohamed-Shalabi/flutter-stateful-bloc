@@ -1,3 +1,3 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of '../../flutter_stateful_bloc.dart';
 
 typedef ObjectProvider<T> = RepositoryProvider<T>;
