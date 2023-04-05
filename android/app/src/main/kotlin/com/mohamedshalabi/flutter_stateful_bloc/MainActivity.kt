@@ -1,4 +1,4 @@
-package com.example.stateful_bloc
+package com.mohamedshalabi.flutter_stateful_bloc
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.stateful_bloc">
+    package="com.mohamedshalabi.flutter_stateful_bloc">
    <application
         android:label="stateful_bloc"
         android:name="${applicationName}"
