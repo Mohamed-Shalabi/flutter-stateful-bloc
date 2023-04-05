@@ -228,6 +228,7 @@ class MessagingFailedState with MessagingStates {
   String get text => errorMessage;
 }
 ```
+Note that if you need to use `stateHolder.lastStateOfSuperType` method in the state, you should make it as a member variable and initiate it in the constructor.
 - Finally, edit the widget to consume the new **super state**
 ```dart
 @override
