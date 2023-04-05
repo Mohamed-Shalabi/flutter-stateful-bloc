@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'stateful_bloc.dart';
+import 'stateful_bloc_parts.dart';
 
 final CounterStatefulCubit cubit = CounterStatefulCubit(
   CounterRepository(

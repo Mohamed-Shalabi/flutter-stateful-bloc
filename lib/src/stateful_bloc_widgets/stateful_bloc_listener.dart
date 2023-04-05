@@ -1,4 +1,4 @@
-part of '../../stateful_bloc.dart';
+part of '../../stateful_bloc_parts.dart';
 
 /// A widget that executes [listener] function when a new state of type [ListenedState] is emitted.
 class StatefulBlocListener<ListenedState extends SuperState>

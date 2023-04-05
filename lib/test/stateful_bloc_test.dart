@@ -1,4 +1,4 @@
-part of '../stateful_bloc.dart';
+part of '../stateful_bloc_parts.dart';
 
 @isTest
 // ignore: library_private_types_in_public_api

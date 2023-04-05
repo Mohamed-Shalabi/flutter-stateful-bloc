@@ -1,4 +1,4 @@
-part of '../stateful_bloc.dart';
+part of '../../stateful_bloc_parts.dart';
 
 /// The getter of the global instance of [_GlobalCubit].
 _GlobalCubit _getGlobalCubitInstance(

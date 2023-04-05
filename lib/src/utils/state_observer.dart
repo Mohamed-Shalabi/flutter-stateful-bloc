@@ -1,4 +1,4 @@
-part of '../../stateful_bloc.dart';
+part of '../../stateful_bloc_parts.dart';
 
 typedef StateChanged = void Function(
   Type superState,
