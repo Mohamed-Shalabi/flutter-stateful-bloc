@@ -32,5 +32,5 @@ class StatefulBlocListener<ListenedState extends SuperState>
   }
 }
 
-typedef StateWidgetListener<ListenedState extends SuperState> = void
-    Function(BuildContext context, ListenedState state);
+typedef StateWidgetListener<ListenedState extends SuperState> = void Function(
+    BuildContext context, ListenedState state);

@@ -32,6 +32,7 @@ class _GlobalCubit extends Cubit<SuperState> {
 
   /// Map of the type and its corresponding [StateMapper]s.
   final Map<Type, List<StateMapper>> stateMappers;
+
   /// Subscription of the states stream.
   /// All emitted states are passed through this stream Subscription.
   /// It is stored in a member variable to be able to cancel it in [close].
