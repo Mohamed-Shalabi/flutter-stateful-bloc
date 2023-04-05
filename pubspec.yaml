@@ -1,7 +1,6 @@
 name: stateful_bloc
 description: A Flutter package that wraps the flutter_bloc package to easify working with it.
 version: '0.0.1-beta'
-repository: lib/flutter_stateful_bloc.dart
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
