@@ -8,4 +8,8 @@
 
 ## 0.0.3-beta
 
-* formatted unformatted files.
+* Formatted unformatted files.
+
+## 0.0.3-beta
+
+* Added an example.
