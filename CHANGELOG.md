@@ -17,3 +17,7 @@
 ## 0.0.5-beta
 
 * Added ObjectProcider<T>.
+
+## 0.0.6-beta
+
+* Solved leakages of ObjectProcider<T>.
