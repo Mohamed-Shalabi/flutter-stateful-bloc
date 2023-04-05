@@ -332,5 +332,5 @@ final lastTextState = stateHolder.lastStateOfSuperType(TextState);
 
 ## Examples
 
-- (EOC-Manager | with-stateful-bloc branch)[https://github.com/Mohamed-Shalabi/EOC-Manager/tree/with-stateful-bloc]
+- [EOC-Manager](https://github.com/Mohamed-Shalabi/EOC-Manager/tree/with-stateful-bloc)
 - More is comming soon.
