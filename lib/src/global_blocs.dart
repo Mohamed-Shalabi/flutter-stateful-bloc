@@ -21,7 +21,7 @@ GlobalCubit? _globalCubit;
 class GlobalCubit extends Cubit<SuperState> {
   GlobalCubit(this.stateMappers, this._stateHolder, this._stateObserver)
       : super(_GlobalInitialState()) {
-    _subscription = _stateHolder._listen((state) {
+    _stateHolder._listen((state) {
       emit(state);
       _emitMappedStates(state);
     });
@@ -40,11 +40,6 @@ class GlobalCubit extends Cubit<SuperState> {
   final Map<Type, List<StateMapper>> stateMappers;
   final StateHolderInterface _stateHolder;
   final StateObserverInterface _stateObserver;
-
-  /// Subscription of the states stream.
-  /// All emitted states are passed through this stream Subscription.
-  /// It is stored in a member variable to be able to cancel it in [close].
-  late final StreamSubscription<SuperState> _subscription;
 
   /// Saves the lase emitted state from [change] to the [_stateHolder].
   /// executes [_stateObserver] functions.
