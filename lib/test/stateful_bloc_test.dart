@@ -24,7 +24,7 @@ void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
     setUp: setUp,
     build: () {
       statefulBloc = build();
-      return _getGlobalCubitInstance(stateMappers ?? {});
+      return getGlobalCubitInstance(stateMappers ?? {});
     },
     seed: seed,
     act: (_) {

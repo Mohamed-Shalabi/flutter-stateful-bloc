@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'context.dart';
 
 void main() {
-  group('package test', () {
+  group('unit test', () {
     setUp(() {
       stateObserver.setDefaultStateObserver((_, __, ___) {});
     });
@@ -84,6 +84,11 @@ void main() {
             stateObserver,
           );
           stateHolder.addState(CounterIncrementState(1));
+          Future(
+            () {
+              cubit.cancelStream();
+            },
+          );
           await cubit.stream.toList();
         });
         test(

@@ -1,7 +1,8 @@
 part of '../flutter_stateful_bloc.dart';
 
 /// The getter of the global instance of [GlobalCubit].
-GlobalCubit _getGlobalCubitInstance(
+@visibleForTesting
+GlobalCubit getGlobalCubitInstance(
   Map<Type, List<StateMapper>> stateMappers,
 ) {
   _globalCubit ??= GlobalCubit(
@@ -63,6 +64,11 @@ class GlobalCubit extends Cubit<SuperState> {
   @override
   // ignore: must_call_super
   Future<void> close() async {}
+
+  @visibleForTesting
+  void cancelStream() {
+    super.close();
+  }
 }
 
 /// The initial state of the application.

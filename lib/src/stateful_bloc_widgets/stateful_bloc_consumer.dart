@@ -22,7 +22,11 @@ class StatefulBlocConsumer<ConsumedState extends SuperState>
       builder: (BuildContext context, state) {
         if (state is _GlobalInitialState) {
           state = initialState;
-          stateHolder.addState(state);
+        }
+
+        if (state is! ConsumedState) {
+          state =
+              stateHolder.lastStateOfSuperType(ConsumedState) ?? initialState;
         }
 
         return builder(
