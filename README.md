@@ -1,8 +1,22 @@
-# stateful_bloc
+# flutter_stateful_bloc
+
+## Overview
 
 A Flutter package that wraps the `flutter_bloc` package to easify working with it.
 
-## Overview
+This is a (stateful)(bloc_package) not (stateful_bloc)(package). The reason for this name is that we made states totally independent of blocs. We use the concept of **stateless blocs**.
+
+## Migration
+
+From 0.0.6-beta to 0.1.0-beta, we renamed:
+- `SuperState` to `ContextState`.
+- `superStates` getter in `SuperState` to `parentStates` getter in `ContextState`.
+- `StatefulCubit` to `StatelessCubit` (it was a bad name).
+- `StatefulBlocProvider` to `StatefulProvider`.
+- `StatefulBlocConsumer` to `StateConsumer`.
+- `StatefulBlocListener` to `StateListener`.
+
+## The Problem
 
 **The BLoC pattern has some restrictions, like:**
 
@@ -12,18 +26,28 @@ A Flutter package that wraps the `flutter_bloc` package to easify working with i
 - **blocs** are not immutable, you can save data in them which is not safe and breaks the pattern.
 - You must write much boilerplate code to communicate with other **blocs** in the UI layer.
 
+### Terminology
+
+- **Context States**: 
+    - Classes that implement `ContextState`.
+    - They should contain abstract getters for their data.
+    - They are usually mixed to the ordinary **states** and can be mixed to each other.
+- **State Mixing**:
+    - The feature of mixing multiple **states** into a single state that holds one snapshot of data a time.
+- **Stateless BLoCs**:
+    - *BLoC*s that don't hold **states**.
+- **State Mappers**:
+    - The feature of emitting certain **states** when other certain **states** are emitted.
+- **State Holder**:
+    - a Dart object that holds all the emitted **states**.
+
 ### Solution
-
-The main reason for these restrictions is that you can consume the **blocs** not the **states**.
-
-`flutter_stateful_bloc` lets you consume the **states** themselves independently of **blocs**.
-
-This enables **state mixing** feature, which means that:
+The solution is **state mixing** feature, which means that:
 
 - You can consume states sent from multiple **blocs**.
 - No UI-dependent **bloc** design, as the **bloc** become only a set of methods that emit states as they are immutable.
 - There are **stateMappers** that enable emitting some states when others are emitted.
-- You can get the last state of certain **super type**.
+- You can get the last state of certain **parent type**.
 
 Other advantage is that our **blocs** are immutable, so:
 - **States** are stored totally outside of the **blocs**.
@@ -31,17 +55,23 @@ Other advantage is that our **blocs** are immutable, so:
 
 Finally, **blocs** no longer depend on `BuildContext`. So, all **blocs** can be handled in your DI framework freely.
 
+*How is that done?*
+
+The main reason for BLoC restrictions is that you can consume the **blocs** not the **states**.
+
+`flutter_stateful_bloc` lets you consume the **states** themselves independently of **blocs**.
+
 ## Usage
 
 The example explains how to use `stateful_bloc` in a simple bluetooth application that listens to connection status and sends data via bluetooth.
 
 ### Basic usage
 
-- Wrap your app with ***StatefulBlocProvider***.
+- Wrap your app with ***StatefulProvider***.
 ```dart
 @override
 Widget build(BuildContext context) {
-  return StatefulBlocProvider(
+  return StatefulProvider(
     app: MaterialApp(
       title: AppStrings.appName,
       debugShowCheckedModeBanner: false,
@@ -53,17 +83,17 @@ Widget build(BuildContext context) {
   );
 }
 ```
-- Create your **super state** that implements ***SuperState***, and add its type to the **superStates** getter.
+- Create your **context state** that implements ***ContextState***, and add its type to the **parentStates** getter.
 - Make getters for the data you need, it is preferred to use getters over class members.
 ```dart
-abstract class ConnectionStates implements SuperState {
+abstract class ConnectionStates implements ContextState {
   bool get isConnected;
 
   @override
-  List<Type> get superStates => [ConnectionStates];
+  List<Type> get parentStates => [ConnectionStates];
 }
 ```
-- create your **states** that mix the **super state**.
+- create your **states** that mix the **context state**.
 ```dart
 class ConnectionConnectedState with ConnectionStates {
   @override
@@ -75,9 +105,9 @@ class ConnectionDisconnectedState with ConnectionStates {
   bool get isConnected => false;
 }
 ```
-- Create your cubit that extends ***StatefulCubit***.
+- Create your cubit that extends ***StatelessCubit***.
 ```dart
-class ConnectionCubit extends StatefulCubit<ConnectionStates> {
+class ConnectionCubit extends StatelessCubit<ConnectionStates> {
   ConnectionCubit({
     required ConnectionStreamUseCase connectionStreamUseCase,
   }) {
@@ -101,12 +131,12 @@ class ConnectionCubit extends StatefulCubit<ConnectionStates> {
   }
 }
 ```
-- Wrap your UI that depends on the cubit with ***StatefulBlocConsumer***. 
+- Wrap your UI that depends on the cubit with ***StateConsumer***. 
 
 ```dart
 @override
 Widget build(BuildContext context) {
-  return StatefulBlocConsumer<ConnectionStates>(
+  return StateConsumer<ConnectionStates>(
     initialState: ConnectionDisconnectedState(),
     builder: (BuildContext context, ConnectionStates state) {
       return Text('Connected: ${state.isConnected}');
@@ -114,12 +144,12 @@ Widget build(BuildContext context) {
   );
 }
 ```
-You will need to provide an initial state. You can get the last emitted state of your **super type** like this:
+You will need to provide an initial state. You can get the last emitted state of your **parent type** like this:
 ```dart
 @override
 Widget build(BuildContext context) {
-  return StatefulBlocConsumer<ConnectionStates>(
-    initialState: stateHolder.lastStateOfSuperType(ConnectionStates) ?? ConnectionDisconnectedState(),
+  return StateConsumer<ConnectionStates>(
+    initialState: stateHolder.lastStateOfParentType(ConnectionStates) ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, ConnectionStates state) {
       return Text('Connected: ${state.isConnected}');
     },
@@ -127,13 +157,13 @@ Widget build(BuildContext context) {
 }
 ```
 
-- Wrap the body of the **Scaffold** with ***StatefulBlocListener*** to listen to states (for example, to show messages).
+- Wrap the body of the **Scaffold** with ***StateListener*** to listen to states (for example, to show messages).
 ```dart
 return Scaffold(
   appBar: AppBar(
     title: const Text('Home'),
   ),
-  body: StatefulBlocListener<SuperState>(
+  body: StateListener<ContextState>(
     listener: (context, state) {
       if (state is ConnectionConnectedState) {
         context.showSnackBar('Connected');
@@ -160,9 +190,9 @@ The logic of showing different states is done outside of the UI, but the `Text` 
 
 - The messaging states
 ```dart
-abstract class MessagingStates implements SuperState {
+abstract class MessagingStates implements ContextState {
   @override
-  List<Type> get superStates => [MessagingStates];
+  List<Type> get parentStates => [MessagingStates];
 }
 
 class MessagingSuccessState extends MessagingStates {
@@ -180,20 +210,20 @@ class MessagingFailedState extends MessagingStates {
 
 *How can we consume both states in the same widget?*
 
-- Create a new **super state**.
+- Create a new **context state**.
 ```dart
-abstract class TextState implements SuperState {
+abstract class TextState implements ContextState {
   String get text;
 
   @override
-  List<Type> get superStates => [TextState];
+  List<Type> get parentStates => [TextState];
 }
 ```
-- Modify old **super states**:
+- Modify old **context states**:
 ```dart
 abstract class MessagingStates implements TextState {
   @override
-  List<Type> get superStates => [MessagingStates, TextState];
+  List<Type> get parentStates => [MessagingStates, TextState];
 }
 
 abstract class ConnectionStates with TextState {
@@ -205,7 +235,7 @@ abstract class ConnectionStates with TextState {
   String get text => isConnected ? 'Connected' : 'Not connected';
 
   @override
-  List<Type> get superStates => [ConnectionStates, TextState];
+  List<Type> get parentStates => [ConnectionStates, TextState];
 }
 ```
 - Now, you will need to implement the text getter in the concrete `MessagingStates`
@@ -228,13 +258,13 @@ class MessagingFailedState with MessagingStates {
   String get text => errorMessage;
 }
 ```
-Note that if you need to use `stateHolder.lastStateOfSuperType` method in the state, you should make it as a member variable and initiate it in the constructor.
-- Finally, edit the widget to consume the new **super state**
+Note that if you need to use `stateHolder.lastStateOfParentType` method in the state, you should make it as a member variable and initiate it in the constructor.
+- Finally, edit the widget to consume the new **context state**
 ```dart
 @override
 Widget build(BuildContext context) {
-  return StatefulBlocConsumer<TextStates>(
-    initialState: stateHolder.lastStateOfSuperType(TextStates) ?? ConnectionDisconnectedState(),
+  return StateConsumer<TextStates>(
+    initialState: stateHolder.lastStateOfParentType(TextStates) ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, TextStates state) {
       return Text(state.text);
     },
@@ -249,12 +279,12 @@ If these **states** hold data, they cannot be mixed to each other.
 
 To overcome this issue, there are **stateMappers**!
 
-Modify the `StatefulBlocProvider` to be:
+Modify the `StatefulProvider` to be:
 
 ```dart
 @override
 Widget build(BuildContext context) {
-  return StatefulBlocProvider(
+  return StatefulProvider(
     stateMappers: [
       A: [(A a) => B(a.data)],
       B: [(B b) => A(b.data)],
@@ -277,13 +307,13 @@ You can make a single mapper.
 - You can trace **states** by using the function `setDefaultStateObserver` in the `stateObserver` getter.
 ```dart
   stateObserver.setDefaultStateObserver((
-    Type superState,
-    SuperState previous,
-    SuperState current,
+    Type contextState,
+    ContextState previous,
+    ContextState current,
   ) {
     if (kDebugMode) {
       print(
-        'Scope $superState: '
+        'Scope $contextState: '
         'Transitioning from ${previous.runtimeType} '
         'to ${current.runtimeType}',
       );
@@ -295,13 +325,13 @@ You can make a single mapper.
 stateObserver.setStateObserver(
   MessagingStates, 
   (
-    Type superState,
-    SuperState previous,
-    SuperState current,
+    Type contextState,
+    ContextState previous,
+    ContextState current,
   ) {
     if (kDebugMode) {
       print(
-        'Scope $superState: '
+        'Scope $contextState: '
         'Transitioning from ${previous.runtimeType} '
         'to ${current.runtimeType}',
       );
@@ -312,9 +342,9 @@ stateObserver.setStateObserver(
 
 ### State Holder
 
-- You can access last **states** of each **super state** using **stateHolder**.
+- You can access last **states** of each **context state** using **stateHolder**.
 ```dart
-final lastTextState = stateHolder.lastStateOfSuperType(TextState);
+final lastTextState = stateHolder.lastStateOfParentType(TextState);
 ```
 
 ## Testing
@@ -324,11 +354,10 @@ final lastTextState = stateHolder.lastStateOfSuperType(TextState);
 
 ## NOTES
 
-- **Super states** must be abstract classes that ***implements(not mixes or extends)*** other **super states**.
-- If you cannot mix a **super state** in a **concrete state**, then convert all constructor fields in the **super state** to getters.
+- **Context states** must be abstract classes that ***implement (not mix or extend)*** other **context states**.
+- If you cannot mix a **context state** in a **concrete state**, then convert all constructor fields in the **context state** to getters.
 - All cubits and states should be immutable.
-- The ***StatefulBlocConsumer*** won't rebuild except if the emitted state is of its generic type or its children.
-- The package won't be published before completing development and testing, because it is still unstable.
+- The ***StateConsumer*** won't rebuild except if the emitted state is of its generic type or its children.
 
 ## Examples
 

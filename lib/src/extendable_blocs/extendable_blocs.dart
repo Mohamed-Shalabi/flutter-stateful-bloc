@@ -1,18 +1,23 @@
 part of '../../flutter_stateful_bloc.dart';
 
 /// A class that is implemented by the states.
-/// Override [superStates] with the abstract class name and its parents.
+/// Override [parentStates] with the abstract class name and its parents.
 @immutable
-abstract class SuperState {
-  const SuperState();
+abstract class ContextState {
+  const ContextState();
 
-  List<Type> get superStates;
+  List<Type> get parentStates;
+}
+
+extension SuperStateGetter on ContextState {
+  @Deprecated('Changed getter name to parentStates')
+  List<Type> get superStates => parentStates;
 }
 
 /// The base bloc that the user should extend.
 @immutable
-abstract class _ExtendableStatefulBlocBase<State extends SuperState> {
-  const _ExtendableStatefulBlocBase();
+abstract class _StatelessBlocBase<State extends ContextState> {
+  const _StatelessBlocBase();
 
   @nonVirtual
   void emit(State state) {
@@ -21,7 +26,7 @@ abstract class _ExtendableStatefulBlocBase<State extends SuperState> {
 }
 
 /// The first usable bloc that the user should extend.
-class StatefulCubit<State extends SuperState>
-    extends _ExtendableStatefulBlocBase<State> {
-  const StatefulCubit();
+class StatelessCubit<State extends ContextState>
+    extends _StatelessBlocBase<State> {
+  const StatelessCubit();
 }

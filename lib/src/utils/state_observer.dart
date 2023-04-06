@@ -2,8 +2,8 @@ part of '../../flutter_stateful_bloc.dart';
 
 typedef StateChanged = void Function(
   Type superState,
-  SuperState previous,
-  SuperState current,
+  ContextState previous,
+  ContextState current,
 );
 
 /// The global instance of [StateObserverInterface]
@@ -28,8 +28,8 @@ class _StateObserver implements StateObserverInterface {
 
   StateChanged _defaultStateObserver = (
     Type superState,
-    SuperState previous,
-    SuperState current,
+    ContextState previous,
+    ContextState current,
   ) {
     if (kDebugMode) {
       print(

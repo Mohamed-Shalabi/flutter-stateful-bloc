@@ -21,3 +21,9 @@
 ## 0.0.6-beta
 
 * Solved leakages of ObjectProcider<T>.
+
+## 0.1.0-beta
+
+* Completed testing the package.
+* Bug fixes.
+* Changed many names (see migration guide in README.md).

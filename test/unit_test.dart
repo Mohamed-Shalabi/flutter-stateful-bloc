@@ -94,7 +94,7 @@ void main() {
         test(
           'Testing state holders',
           () {
-            final state = stateHolder.lastStateOfSuperType(CounterStates);
+            final state = stateHolder.lastStateOfContextType(CounterStates);
             expect(state, CounterIncrementState(1));
           },
         );

@@ -2,8 +2,8 @@ part of '../flutter_stateful_bloc.dart';
 
 @isTest
 // ignore: library_private_types_in_public_api
-void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
-    State extends SuperState>(
+void statefulBlocTest<StatefulBloc extends StatelessCubit<State>,
+    State extends ContextState>(
   String description, {
   required StatefulBloc Function() build,
   Map<Type, List<StateMapper>>? stateMappers,
@@ -19,7 +19,7 @@ void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
   dynamic tags,
 }) {
   late final StatefulBloc statefulBloc;
-  blocTest<GlobalCubit, SuperState>(
+  blocTest<GlobalCubit, ContextState>(
     description,
     setUp: setUp,
     build: () {

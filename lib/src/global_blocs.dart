@@ -16,10 +16,10 @@ GlobalCubit getGlobalCubitInstance(
 GlobalCubit? _globalCubit;
 
 /// The global cubit used in the entire application.
-/// It is injected to the widget tree by [StatefulBlocProvider].
+/// It is injected to the widget tree by [StatefulProvider].
 /// It must be injected over the whole app.
 @visibleForTesting
-class GlobalCubit extends Cubit<SuperState> {
+class GlobalCubit extends Cubit<ContextState> {
   GlobalCubit(this.stateMappers, this._stateHolder, this._stateObserver)
       : super(_GlobalInitialState()) {
     _stateHolder._listen((state) {
@@ -29,7 +29,7 @@ class GlobalCubit extends Cubit<SuperState> {
   }
 
   /// Emits all the states mapped from [state].
-  void _emitMappedStates(SuperState state) {
+  void _emitMappedStates(ContextState state) {
     final functions = stateMappers[state.runtimeType] ?? [];
     for (final function in functions) {
       final mappedState = function(state);
@@ -46,18 +46,18 @@ class GlobalCubit extends Cubit<SuperState> {
   /// executes [_stateObserver] functions.
   @override
   // ignore: must_call_super
-  void onChange(Change<SuperState> change) {
-    final superStatesTypes = change.nextState.superStates;
+  void onChange(Change<ContextState> change) {
+    final contextStateTypes = change.nextState.parentStates;
     final currentState = change.nextState;
 
-    for (final superStateType in superStatesTypes) {
-      var oldSimilarState = _stateHolder.lastStateOfSuperType(superStateType);
+    for (final contextStateType in contextStateTypes) {
+      var oldSimilarState = _stateHolder.lastStateOfContextType(contextStateType);
 
       oldSimilarState ??= _GlobalInitialState();
 
-      final callback = _stateObserver._getStateObserver(superStateType);
-      callback(superStateType, oldSimilarState, currentState);
-      _stateHolder.saveStateAfterEmit(superStateType, currentState);
+      final callback = _stateObserver._getStateObserver(contextStateType);
+      callback(contextStateType, oldSimilarState, currentState);
+      _stateHolder.saveStateAfterEmit(contextStateType, currentState);
     }
   }
 
@@ -72,7 +72,7 @@ class GlobalCubit extends Cubit<SuperState> {
 }
 
 /// The initial state of the application.
-class _GlobalInitialState extends SuperState {
+class _GlobalInitialState extends ContextState {
   @override
-  List<Type> get superStates => [_GlobalInitialState];
+  List<Type> get parentStates => [_GlobalInitialState];
 }
