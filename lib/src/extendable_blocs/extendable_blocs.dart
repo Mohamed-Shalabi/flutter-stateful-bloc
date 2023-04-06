@@ -16,7 +16,7 @@ abstract class _ExtendableStatefulBlocBase<State extends SuperState> {
 
   @nonVirtual
   void emit(State state) {
-    stateHolder._addState(state);
+    stateHolder.addState(state);
   }
 }
 

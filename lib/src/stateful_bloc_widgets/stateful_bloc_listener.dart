@@ -18,7 +18,7 @@ class StatefulBlocListener<ListenedState extends SuperState>
       throw 'You must enter the states you need to listen to';
     }
 
-    return BlocListener<_GlobalCubit, SuperState>(
+    return BlocListener<GlobalCubit, SuperState>(
       listenWhen: (previous, current) {
         return current is ListenedState && current != previous;
       },

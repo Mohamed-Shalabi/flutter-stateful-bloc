@@ -19,7 +19,7 @@ void statefulBlocTest<StatefulBloc extends StatefulCubit<State>,
   dynamic tags,
 }) {
   late final StatefulBloc statefulBloc;
-  blocTest<_GlobalCubit, SuperState>(
+  blocTest<GlobalCubit, SuperState>(
     description,
     setUp: setUp,
     build: () {

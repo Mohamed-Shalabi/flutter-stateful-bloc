@@ -13,7 +13,7 @@ part 'src/global_blocs.dart';
 part 'src/stateful_bloc_widgets/stateful_bloc_consumer.dart';
 part 'src/stateful_bloc_widgets/stateful_bloc_listener.dart';
 part 'src/stateful_bloc_widgets/stateful_bloc_provider.dart';
-part 'src/utils/bloc_state_holder.dart';
+part 'src/utils/state_holder.dart';
 part 'src/utils/state_mapper.dart';
 part 'src/utils/state_observer.dart';
 part 'src/utils_widgets/object_provider.dart';

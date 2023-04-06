@@ -5,20 +5,29 @@ typedef StateAction = void Function(SuperState);
 /// The global instance of [StateHolderInterface].
 StateHolderInterface get stateHolder => _StateHolder.instance;
 
+// TODO: split this api into two separate interfaces
+
 /// This is the interface used by the users to get the last state of a certain type.
 /// It is used by the package to
-/// - [_listen] to the states in the [_GlobalCubit].
+/// - [_listen] to the states in the [GlobalCubit].
 /// - [_addState] in the [_ExtendableStatefulBlocBase.emit].
-/// - [_saveStateAfterEmit] to save the last state of certain type.
+/// - [saveStateAfterEmit] to save the last state of certain type.
 abstract class StateHolderInterface {
   SuperState? lastStateOfSuperType(Type type);
 
   StreamSubscription<SuperState> _listen(StateAction action);
 
-  void _addState<State extends SuperState>(State state);
+  @visibleForTesting
+  void addState<State extends SuperState>(State state);
 
-  void _saveStateAfterEmit<State extends SuperState>(
-      Type superStateType, State state);
+  @visibleForTesting
+  void saveStateAfterEmit<State extends SuperState>(
+    Type superStateType,
+    State state,
+  );
+
+  @visibleForTesting
+  void clear();
 }
 
 class _StateHolder implements StateHolderInterface {
@@ -40,15 +49,20 @@ class _StateHolder implements StateHolderInterface {
   }
 
   @override
-  void _addState<State extends SuperState>(State state) {
+  void addState<State extends SuperState>(State state) {
     _statesStreamController.add(state);
   }
 
   @override
-  void _saveStateAfterEmit<State extends SuperState>(
+  void saveStateAfterEmit<State extends SuperState>(
     Type superStateType,
     State state,
   ) {
     _lastStates[superStateType] = state;
+  }
+
+  @override
+  void clear() {
+    _lastStates.clear();
   }
 }

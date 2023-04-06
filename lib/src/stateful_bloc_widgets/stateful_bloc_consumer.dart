@@ -14,7 +14,7 @@ class StatefulBlocConsumer<ConsumedState extends SuperState>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<_GlobalCubit, SuperState>(
+    return BlocBuilder<GlobalCubit, SuperState>(
       buildWhen: (previous, current) {
         return current is ConsumedState && current != previous ||
             current is _GlobalInitialState;
@@ -22,7 +22,7 @@ class StatefulBlocConsumer<ConsumedState extends SuperState>
       builder: (BuildContext context, state) {
         if (state is _GlobalInitialState) {
           state = initialState;
-          stateHolder._addState(state);
+          stateHolder.addState(state);
         }
 
         return builder(
