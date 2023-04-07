@@ -12,6 +12,7 @@ class StateConsumer<ConsumedState extends ContextState>
 
   // The function that is called to build the widget.
   final StateWidgetBuilder<ConsumedState> builder;
+
   /// The initial state of the [StateConsumer] if there is no old [ConsumedState] in the application.
   final ConsumedState initialState;
 

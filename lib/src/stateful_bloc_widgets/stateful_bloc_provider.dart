@@ -10,8 +10,9 @@ class StatefulProvider extends StatelessWidget {
   });
 
   final Widget app;
+
   /// [stateMappers] are a set of [StateMapper] for each state of type [Type] that are used to emit states of any type when a state of type [Type] is emitted.
-  final Map<Type, List<StateMapper>> stateMappers; 
+  final Map<Type, List<StateMapper>> stateMappers;
 
   @override
   Widget build(BuildContext context) {

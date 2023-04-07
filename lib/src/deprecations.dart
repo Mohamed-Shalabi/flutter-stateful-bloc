@@ -9,10 +9,12 @@ typedef SuperState = ContextState;
 typedef StatefulBlocProvider = StatefulProvider;
 
 @Deprecated('Changed class name to StateConsumer')
-typedef StatefulBlocConsumer<ConsumedState extends SuperState> = StateConsumer<ConsumedState>;
+typedef StatefulBlocConsumer<ConsumedState extends SuperState>
+    = StateConsumer<ConsumedState>;
 
 @Deprecated('Changed class name to StateListener')
-typedef StatefulBlocListener<ListenedState extends SuperState> = StateListener<ListenedState>;
+typedef StatefulBlocListener<ListenedState extends SuperState>
+    = StateListener<ListenedState>;
 
 @Deprecated('Changed class name to StatelessCubit')
 typedef StatefulCubit<State extends SuperState> = StatelessCubit<State>;
