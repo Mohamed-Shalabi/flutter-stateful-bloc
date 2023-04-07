@@ -9,6 +9,7 @@ class StateListener<ListenedState extends ContextState>
     required this.body,
   });
 
+  /// The function that is executed when a [ListenedState] is emitted.
   final StateWidgetListener<ListenedState> listener;
   final Widget body;
 
@@ -33,4 +34,6 @@ class StateListener<ListenedState extends ContextState>
 }
 
 typedef StateWidgetListener<ListenedState extends ContextState> = void Function(
-    BuildContext context, ListenedState state);
+  BuildContext context,
+  ListenedState state,
+);

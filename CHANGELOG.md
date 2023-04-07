@@ -27,3 +27,7 @@
 * Completed testing the package.
 * Bug fixes.
 * Changed many names (see migration guide in README.md).
+
+## 0.1.1-beta
+* Wrote unit and widget tests.
+* Wrote rich documentation.

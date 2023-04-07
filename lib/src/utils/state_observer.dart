@@ -21,6 +21,7 @@ abstract class StateObserverInterface {
   StateChanged _getStateObserver(Type type);
 }
 
+/// The implementation of [StateObserverInterface].
 class _StateObserver implements StateObserverInterface {
   static _StateObserver instance = _StateObserver._();
 
