@@ -64,5 +64,6 @@ class _StateHolder implements StateHolderInterface {
   @override
   void clear() {
     _lastStates.clear();
+    addState(_GlobalInitialState());
   }
 }

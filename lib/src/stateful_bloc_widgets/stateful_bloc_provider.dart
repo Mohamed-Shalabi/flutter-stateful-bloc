@@ -14,7 +14,7 @@ class StatefulProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getGlobalCubitInstance(stateMappers),
+      value: getGlobalCubitInstance(stateMappers, true),
       child: app,
     );
   }

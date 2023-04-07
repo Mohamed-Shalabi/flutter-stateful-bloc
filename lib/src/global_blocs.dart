@@ -3,13 +3,18 @@ part of '../flutter_stateful_bloc.dart';
 /// The getter of the global instance of [GlobalCubit].
 @visibleForTesting
 GlobalCubit getGlobalCubitInstance(
-  Map<Type, List<StateMapper>> stateMappers,
-) {
-  _globalCubit ??= GlobalCubit(
-    stateMappers,
-    stateHolder,
-    stateObserver,
-  );
+  Map<Type, List<StateMapper>> stateMappers, [
+  bool isNewInstance = false,
+]) {
+  if (isNewInstance || _globalCubit == null) {
+    _globalCubit?.cancelStream();
+    _globalCubit = GlobalCubit(
+      stateMappers,
+      stateHolder,
+      stateObserver,
+    );
+  }
+
   return _globalCubit!;
 }
 
@@ -22,8 +27,11 @@ GlobalCubit? _globalCubit;
 class GlobalCubit extends Cubit<ContextState> {
   GlobalCubit(this.stateMappers, this._stateHolder, this._stateObserver)
       : super(_GlobalInitialState()) {
-    _stateHolder._listen((state) {
+    _subscription = _stateHolder._listen((state) {
       emit(state);
+      if (state is _GlobalInitialState) {
+        return;
+      }
       _emitMappedStates(state);
     });
   }
@@ -41,6 +49,7 @@ class GlobalCubit extends Cubit<ContextState> {
   final Map<Type, List<StateMapper>> stateMappers;
   final StateHolderInterface _stateHolder;
   final StateObserverInterface _stateObserver;
+  late final StreamSubscription<ContextState> _subscription;
 
   /// Saves the lase emitted state from [change] to the [_stateHolder].
   /// executes [_stateObserver] functions.
@@ -51,7 +60,8 @@ class GlobalCubit extends Cubit<ContextState> {
     final currentState = change.nextState;
 
     for (final contextStateType in contextStateTypes) {
-      var oldSimilarState = _stateHolder.lastStateOfContextType(contextStateType);
+      var oldSimilarState =
+          _stateHolder.lastStateOfContextType(contextStateType);
 
       oldSimilarState ??= _GlobalInitialState();
 
@@ -67,6 +77,7 @@ class GlobalCubit extends Cubit<ContextState> {
 
   @visibleForTesting
   void cancelStream() {
+    _subscription.cancel();
     super.close();
   }
 }
