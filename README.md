@@ -1,6 +1,6 @@
 # flutter_stateful_bloc
 
-![GitHub](https://img.shields.io/github/license/Mohamed-Shalabi/flutter-stateful-bloc)![Pub Version](https://img.shields.io/pub/v/flutter_stateful_bloc?color=cyan)
+![GitHub](https://img.shields.io/github/license/Mohamed-Shalabi/flutter-stateful-bloc) ![Pub Version](https://img.shields.io/pub/v/flutter_stateful_bloc?color=cyan)
 
 ## Overview
 
