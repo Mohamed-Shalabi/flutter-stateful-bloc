@@ -1,6 +1,7 @@
 part of '../../flutter_stateful_bloc.dart';
 
 /// A widget that rebuilds its child when a new state of type [ConsumedState] is emitted.
+/// [ConsumedState] must be a subtype of [ContextState].
 class StateConsumer<ConsumedState extends ContextState>
     extends StatelessWidget {
   const StateConsumer({
@@ -9,7 +10,10 @@ class StateConsumer<ConsumedState extends ContextState>
     required this.initialState,
   });
 
+  // The function that is called to build the widget.
   final StateWidgetBuilder<ConsumedState> builder;
+
+  /// The initial state of the [StateConsumer] if there is no old [ConsumedState] in the application.
   final ConsumedState initialState;
 
   @override

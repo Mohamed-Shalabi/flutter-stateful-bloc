@@ -71,6 +71,7 @@ class GlobalCubit extends Cubit<ContextState> {
     }
   }
 
+  /// Overriding [super.close] to never dispose the cubit.
   @override
   // ignore: must_call_super
   Future<void> close() async {}

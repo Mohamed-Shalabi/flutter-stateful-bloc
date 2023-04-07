@@ -13,6 +13,9 @@ StateHolderInterface get stateHolder => _StateHolder.instance;
 /// - [_addState] in the [_StatelessBlocBase.emit].
 /// - [saveStateAfterEmit] to save the last state of certain type.
 abstract class StateHolderInterface {
+  /// The only public method in this interface.
+  /// It is used to get the last state with context type [Type].
+  /// Don't use it outside [Widget] build method and [ContextState]s constructors.
   ContextState? lastStateOfContextType(Type type);
 
   StreamSubscription<ContextState> _listen(StateAction action);
@@ -30,6 +33,7 @@ abstract class StateHolderInterface {
   void clear();
 }
 
+/// The implementation of [StateHolderInterface].
 class _StateHolder implements StateHolderInterface {
   static _StateHolder instance = _StateHolder._();
   final Map<Type, ContextState> _lastStates = {};
