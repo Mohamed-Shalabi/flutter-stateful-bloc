@@ -1,5 +1,7 @@
 # flutter_stateful_bloc
 
+![GitHub](https://img.shields.io/github/license/Mohamed-Shalabi/flutter-stateful-bloc)
+
 ## Overview
 
 A Flutter package that wraps the `flutter_bloc` package to easify working with it.
