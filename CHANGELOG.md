@@ -31,3 +31,6 @@
 ## 0.1.1-beta
 * Wrote unit and widget tests.
 * Wrote rich documentation.
+
+## 0.1.2-beta
+* Improved the quality of the documentation.

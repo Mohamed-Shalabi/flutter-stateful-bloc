@@ -23,12 +23,16 @@ From 0.0.6-beta to 0.1.0-beta, we renamed:
 **The BLoC pattern has some restrictions, like:**
 
 - UI may affect **bloc** design
-    - You need to divide a **bloc** to multiple **blocs** to emit multiple **states** if they are not physically dependent even if they are logically related, or you will suffer from much boilerplate code.
-    - You cannot depend on the same **states** from multiple **blocs**, which lead to merging **blocs** or other boilerplate code.
+    - You will need to merge multiple **bloc** into one **bloc** to be able to consume multiple states in the widget.
+    - Or you will need to divide a **bloc** to some smaller **bloc** if you want to depend on multiple states in the same widget.
+    - The workaround for this is to put different types of states in a big state and make a copyWith method, which is not useful for big screens or for global features that appear in different screens.
+- Rebuilds are restricted with the emits coming from the certain **bloc** and on the other hand, widgets get their data from the states which is not a straightforward approach in dependency and affects **bloc** design or obliges you to use nested `BlocBuilders`..
 - **blocs** are not immutable, you can save data in them which is not safe and breaks the pattern.
 - You must write much boilerplate code to communicate with other **blocs** in the UI layer.
+There should not be tight coupling between the **bloc** that is responsible for emitting the states, and the rebuilding widget itself. The widget should depend on the states themselves even in the rebuilding.
+If **blocs** and states are decoupled, you are free to design your BLoCs and states as you need! BLoCs emit new states and widgets listen to the states totally independent of the emitter.
 
-### Terminology
+## Terminology
 
 - **Context States**: 
     - Classes that implement `ContextState`.
@@ -43,25 +47,14 @@ From 0.0.6-beta to 0.1.0-beta, we renamed:
 - **State Holder**:
     - a Dart object that holds all the emitted **states**.
 
-### Solution
-The solution is **state mixing** feature, which means that:
+## Solution
 
-- You can consume states sent from multiple **blocs**.
-- No UI-dependent **bloc** design, as the **bloc** become only a set of methods that emit states as they are immutable.
-- There are **stateMappers** that enable emitting some states when others are emitted.
-- You can get the last state of certain **parent type**.
-
-Other advantage is that our **blocs** are immutable, so:
-- **States** are stored totally outside of the **blocs**.
-- No data is saved in the **blocs**, you get the data from outside the **blocs** and send them to the **states**.
-
-Finally, **blocs** no longer depend on `BuildContext`. So, all **blocs** can be handled in your DI framework freely.
-
-*How is that done?*
-
-The main reason for BLoC restrictions is that you can consume the **blocs** not the **states**.
-
-`flutter_stateful_bloc` lets you consume the **states** themselves independently of **blocs**.
+`flutter_stateful_bloc` lets you consume the **states** themselves independently of **blocs**, which means:
+- No nested `BlocBuilders`.
+- **BLoCs** design is totally independent of the widget.
+- States can be consumed freely and safely from anywhere in the widget tree.
+- States can be mixed or mapped to other states.
+- No useless rebuilds.
 
 ## Usage
 
@@ -274,6 +267,8 @@ Widget build(BuildContext context) {
 }
 ```
 
+***There is another more advanced example in the article below.***
+
 ### State Mappers
 Imagine that you need to emit a concrete **state** of type ***A*** when a concrete state of type ***B*** is emitted.
 
@@ -287,10 +282,10 @@ Modify the `StatefulProvider` to be:
 @override
 Widget build(BuildContext context) {
   return StatefulProvider(
-    stateMappers: [
+    stateMappers: {
       A: [(A a) => B(a.data)],
       B: [(B b) => A(b.data)],
-    ],
+    },
     app: ...
   );
 }
@@ -365,3 +360,6 @@ final lastTextState = stateHolder.lastStateOfParentType(TextState);
 
 - [EOC-Manager](https://github.com/Mohamed-Shalabi/EOC-Manager/tree/with-stateful-bloc)
 - More is comming soon.
+
+## Articles
+- [Stateless BLoCs - More Flexibility!](https://medium.com/@mshalaby10/stateless-blocs-more-flexibility-abad8b081683)
