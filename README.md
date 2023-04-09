@@ -365,4 +365,4 @@ final lastTextState = stateHolder.lastStateOfParentType(TextState);
 - [Stateless BLoCs - More Flexibility!](https://medium.com/@mshalaby10/stateless-blocs-more-flexibility-abad8b081683)
 
 ## TODOs
-- `MixedState` class that automates state mixing.
+- `MixedState` class that automates state mixing using reflection.
