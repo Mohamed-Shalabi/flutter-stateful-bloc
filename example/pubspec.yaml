@@ -35,7 +35,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_stateful_bloc: ^0.0.2-beta
+  flutter_stateful_bloc: 
+    git:
+      url: https://github.com/Mohamed-Shalabi/flutter-stateful-bloc
+
 
 dev_dependencies:
   flutter_test:

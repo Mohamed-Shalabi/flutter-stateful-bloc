@@ -161,11 +161,12 @@ packages:
   flutter_stateful_bloc:
     dependency: "direct main"
     description:
-      name: flutter_stateful_bloc
-      sha256: b736c72f7a3ed5207ea73b641c89be55292b14eead85be45b08e02f5cb96499d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2-beta"
+      path: "."
+      ref: HEAD
+      resolved-ref: cdd6b36314685aa2af0d5a8988f464c075565965
+      url: "https://github.com/Mohamed-Shalabi/flutter-stateful-bloc"
+    source: git
+    version: "0.1.2-beta"
   flutter_test:
     dependency: "direct dev"
     description: flutter

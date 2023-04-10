@@ -12,7 +12,7 @@ part 'src/deprecations.dart';
 part 'src/extendable_blocs/extendable_blocs.dart';
 part 'src/global_blocs.dart';
 part 'src/stateful_bloc_widgets/state_consumer.dart';
-part 'src/stateful_bloc_widgets/stateful_bloc_listener.dart';
+part 'src/stateful_bloc_widgets/state_listener.dart';
 part 'src/stateful_bloc_widgets/stateful_bloc_provider.dart';
 part 'src/utils/state_holder.dart';
 part 'src/utils/state_mapper.dart';

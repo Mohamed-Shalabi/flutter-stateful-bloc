@@ -49,14 +49,14 @@ class MyHomePage extends StatelessWidget {
           if (state is CounterIncrementState) {
             scaffoldMessenger.hideCurrentSnackBar();
             scaffoldMessenger.showSnackBar(
-              SnackBar(content: Text('new value: ${state.counter.toString()}')),
+              const SnackBar(content: Text('new value')),
             );
           }
 
           if (state is CounterDecrementState) {
             scaffoldMessenger.hideCurrentSnackBar();
             scaffoldMessenger.showSnackBar(
-              SnackBar(content: Text('new value: ${state.counter.toString()}')),
+              const SnackBar(content: Text('new value')),
             );
           }
         },
@@ -75,6 +75,21 @@ class MyHomePage extends StatelessWidget {
                 builder: (context, state) {
                   return Text(
                     '${state.counter}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                },
+              ),
+              MixedStateConsumer<CounterStates, WordStates>(
+                initialState1: CounterInitialState(),
+                initialState2: ThisWordState(),
+                builder: (
+                  context,
+                  lastState,
+                  counterState,
+                  wordState,
+                ) {
+                  return Text(
+                    '${wordState.word}: ${counterState.counter}',
                     style: Theme.of(context).textTheme.headlineMedium,
                   );
                 },
@@ -100,7 +115,7 @@ abstract class WordStates implements ContextState {
   int get hashCode => Object.hash(word, runtimeType);
 
   @override
-  List<Type> get parentStates => [WordStates];
+  Set<Type> get parentStates => {WordStates};
 }
 
 class ThisWordState extends WordStates {
@@ -117,7 +132,7 @@ abstract class CounterStates implements ContextState {
   int get counter;
 
   @override
-  List<Type> get parentStates => [CounterStates];
+  Set<Type> get parentStates => {CounterStates};
 
   @override
   operator ==(Object? other) =>
@@ -136,7 +151,6 @@ class CounterInitialState extends CounterStates {
 
 class CounterIncrementState extends CounterStates {
   final int _counterValue;
-
   CounterIncrementState(this._counterValue);
 
   @override

@@ -4,9 +4,7 @@ part of '../../flutter_stateful_bloc.dart';
 /// Override [parentStates] with the abstract class name and its parents.
 @immutable
 abstract class ContextState {
-  const ContextState();
-
-  List<Type> get parentStates;
+  Set<Type> get parentStates;
 }
 
 /// The base bloc that should be extended.
