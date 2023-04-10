@@ -37,3 +37,6 @@
 
 ## 0.1.3-beta
 * Added MixedStateConsumer for combine state mixing.
+
+## 0.1.4-beta
+* Bug Fixes.
