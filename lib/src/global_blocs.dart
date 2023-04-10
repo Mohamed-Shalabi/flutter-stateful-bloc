@@ -38,7 +38,10 @@ class GlobalCubit extends Cubit<ContextState> {
 
   /// Emits all the states mapped from [state].
   void _emitMappedStates(ContextState state) {
-    final functions = stateMappers[state.runtimeType] ?? [];
+    final functions = [
+      ...(stateMappers[state.runtimeType] ?? []),
+    ];
+
     for (final function in functions) {
       final mappedState = function(state);
       emit(mappedState);
@@ -86,5 +89,8 @@ class GlobalCubit extends Cubit<ContextState> {
 /// The initial state of the application.
 class _GlobalInitialState extends ContextState {
   @override
-  List<Type> get parentStates => [_GlobalInitialState];
+  Set<Type> get parentStates => {_GlobalInitialState};
+
+  @override
+  get initialState => _GlobalInitialState();
 }

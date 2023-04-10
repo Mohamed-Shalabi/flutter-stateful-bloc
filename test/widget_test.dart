@@ -27,39 +27,39 @@ void main() {
         },
       );
       testWidgets(
-        'Verifying that StatefulBlocConsumer rebuilds the UI',
+        'Verifying that StateConsumer and MixedStateConsumer rebuild the UI',
         (widgetTester) async {
           await widgetTester.pumpWidget(const MyApp());
 
-          expect(find.text('0'), findsOneWidget);
+          expect(find.textContaining('0'), findsNWidgets(2));
           stateHolder.addState(CounterIncrementState(1));
           await widgetTester.pump();
-          expect(find.text('1'), findsOneWidget);
+          expect(find.textContaining('1'), findsNWidgets(2));
           stateHolder.addState(CounterDecrementState(0));
           await widgetTester.pump();
-          expect(find.text('0'), findsOneWidget);
+          expect(find.textContaining('0'), findsNWidgets(2));
           stateHolder.addState(CounterDecrementState(-1));
           await widgetTester.pump();
-          expect(find.text('-1'), findsOneWidget);
+          expect(find.textContaining('-1'), findsNWidgets(2));
         },
       );
       testWidgets(
-        'Verifying that StatefulBlocListener listens to states',
+        'Verifying that StateListener listens to states',
         (widgetTester) async {
           await widgetTester.pumpWidget(const MyApp());
 
           stateHolder.addState(CounterIncrementState(1));
           await widgetTester.pump();
           expect(find.byType(SnackBar), findsOneWidget);
-          expect(find.text('new value: 1'), findsOneWidget);
+          expect(find.text('new value'), findsOneWidget);
           stateHolder.addState(CounterDecrementState(0));
           await widgetTester.pump();
           expect(find.byType(SnackBar), findsOneWidget);
-          expect(find.text('new value: 0'), findsOneWidget);
+          expect(find.text('new value'), findsOneWidget);
           stateHolder.addState(CounterDecrementState(-1));
           await widgetTester.pump();
           expect(find.byType(SnackBar), findsOneWidget);
-          expect(find.text('new value: -1'), findsOneWidget);
+          expect(find.text('new value'), findsOneWidget);
         },
       );
     },

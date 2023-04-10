@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StatefulBlocProvider(
+    return StatefulProvider(
       stateMappers: {
         CounterIncrementState: [
           (state) {
@@ -61,7 +61,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: StatefulBlocListener<CounterStates>(
+      body: StateListener<CounterStates>(
         listener: (context, state) {
           final scaffoldMessenger = ScaffoldMessenger.of(context);
           if (state is CounterIncrementState) {
@@ -82,13 +82,13 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              StatefulBlocConsumer<WordStates>(
+              StateConsumer<WordStates>(
                 initialState: ThisWordState(),
                 builder: (context, state) => Text(
                   'You have pushed the button ${state.word} many times:',
                 ),
               ),
-              StatefulBlocConsumer<CounterStates>(
+              StateConsumer<CounterStates>(
                 initialState: CounterInitialState(),
                 builder: (context, state) {
                   return Text(
@@ -123,11 +123,11 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-abstract class WordStates implements SuperState {
+abstract class WordStates implements ContextState {
   String get word;
 
   @override
-  List<Type> get superStates => [WordStates];
+  List<Type> get parentStates => [WordStates];
 }
 
 class ThisWordState extends WordStates {
@@ -140,11 +140,11 @@ class ThatWordState extends WordStates {
   String get word => 'that';
 }
 
-abstract class CounterStates implements SuperState {
+abstract class CounterStates implements ContextState {
   int get counter;
 
   @override
-  List<Type> get superStates => [CounterStates];
+  List<Type> get parentStates => [CounterStates];
 }
 
 class CounterInitialState extends CounterStates {
@@ -170,7 +170,7 @@ class CounterDecrementState extends CounterStates {
   int get counter => _counterValue;
 }
 
-class CounterStatefulCubit extends StatefulCubit<CounterStates> {
+class CounterStatefulCubit extends StatelessCubit<CounterStates> {
   const CounterStatefulCubit(this._repository);
 
   final CounterRepository _repository;

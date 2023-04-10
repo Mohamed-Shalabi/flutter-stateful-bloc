@@ -179,6 +179,12 @@ And you are done!
 
 ### State Mixing
 
+**There are two types of state mixing**:
+- **Override Mixing**: mixing states to a single state that overrides all of their properties.
+- **Combine Mixing**: mixing states to a combination of other states.
+
+**Override Mixing**:
+
 Imagine that the previous `Text` widget shows a message for 3 seconds when sending messages fails or succeeds.
 
 The logic of showing different states is done outside of the UI, but the `Text` widget needs to consume different states now.
@@ -267,9 +273,41 @@ Widget build(BuildContext context) {
 }
 ```
 
-***There is another more advanced example in the article below.***
+**Combine Mixing**:
+
+In the last section we were lucky because both of the connection and send states represent data of the same type. What if there are multiple widgets with different data types?
+
+Let’s assume that the Text widget is in a container whose color changes depending on the connection state. Using nested BlocBuilders is horrible. Let’s do it with our ContextState.
+
+Then, we will delete `TextStates` class and use `MixedStateConsumer`.
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return MixedStateConsumer<MessagingSuccessState, ConnectionStates>(
+    initialState1: 
+        stateHolder.lastStateOfParentType(MessagingSuccessState) ?? MessagingSuccessState(),
+    initialState2: 
+        stateHolder.lastStateOfParentType(ConnectionStates) ?? ConnectionDisconnectedState(),
+    builder: (
+      BuildContext context,
+      dynamic lastState,
+      MessagingSuccessState messagingState, 
+      ConnectionStates connectionState,
+    ) {
+      return Container(
+        color: connectionState == ConnectionConnectedState ? Colors.green : Colors.red,
+        child: Text(state.text),
+      );
+    },
+  );
+}
+```
+
+***You can mix three states using MixedStateConsumer3***
 
 ### State Mappers
+
 Imagine that you need to emit a concrete **state** of type ***A*** when a concrete state of type ***B*** is emitted.
 
 If these **states** hold data, they cannot be mixed to each other.
