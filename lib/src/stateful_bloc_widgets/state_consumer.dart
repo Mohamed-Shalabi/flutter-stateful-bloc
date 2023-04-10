@@ -71,6 +71,10 @@ class MixedStateConsumer<State1 extends ContextState,
             current is _GlobalInitialState;
       },
       builder: (BuildContext context, state) {
+        if (state is _GlobalInitialState) {
+          state = initialState1;
+        }
+
         final State1 state1;
         final State2 state2;
 
@@ -142,6 +146,10 @@ class MixedStateConsumer3<
             current is _GlobalInitialState;
       },
       builder: (BuildContext context, state) {
+        if (state is _GlobalInitialState) {
+          state = initialState1;
+        }
+
         final State1 state1;
         final State2 state2;
         final State3 state3;
