@@ -90,7 +90,4 @@ class GlobalCubit extends Cubit<ContextState> {
 class _GlobalInitialState extends ContextState {
   @override
   Set<Type> get parentStates => {_GlobalInitialState};
-
-  @override
-  get initialState => _GlobalInitialState();
 }

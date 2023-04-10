@@ -26,12 +26,3 @@ class StatelessCubit<State extends ContextState>
     extends _StatelessBlocBase<State> {
   const StatelessCubit();
 }
-
-extension on Set<Type> {
-  Set<Type> operator +(Set<Type> other) {
-    return {
-      ...this,
-      ...other,
-    };
-  }
-}
