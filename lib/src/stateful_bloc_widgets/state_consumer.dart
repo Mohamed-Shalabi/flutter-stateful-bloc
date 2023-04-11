@@ -143,6 +143,7 @@ class MixedStateConsumer3<
       buildWhen: (previous, current) {
         return current is State1 && current != previous ||
             current is State2 && current != previous ||
+            current is State3 && current != previous ||
             current is _GlobalInitialState;
       },
       builder: (BuildContext context, state) {

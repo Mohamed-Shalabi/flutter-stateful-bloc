@@ -40,3 +40,6 @@
 
 ## 0.1.4-beta
 * Bug Fixes.
+
+## 0.1.5-beta
+* Bug Fixes.
