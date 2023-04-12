@@ -296,7 +296,7 @@ Widget build(BuildContext context) {
       ConnectionStates connectionState,
     ) {
       return Container(
-        color: connectionState == ConnectionConnectedState ? Colors.green : Colors.red,
+        color: connectionState is ConnectionConnectedState ? Colors.green : Colors.red,
         child: Text(state.text),
       );
     },
