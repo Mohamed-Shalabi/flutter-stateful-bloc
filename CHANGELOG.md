@@ -46,3 +46,6 @@
 
 ## 0.1.6-beta
 * Added state test.
+
+## 0.1.7-beta
+* Updated README.
