@@ -179,7 +179,7 @@ And you are done!
 
 ### State Mixing
 
-**There are two types of state mixing**:
+**There are three types of state mixing**:
 - **Override Mixing**: mixing states to a single state that overrides all of their properties.
 - **Combine Mixing**: mixing states to a combination of other states.
 - **State Mapper**: is used to make a widget depend on other states by mapping each of them to its state.
