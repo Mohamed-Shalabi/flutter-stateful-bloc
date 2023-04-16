@@ -6,7 +6,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart' as test;
 import 'package:meta/meta.dart';
+import 'package:diff_match_patch/diff_match_patch.dart';
 
 part 'src/deprecations.dart';
 part 'src/extendable_blocs/extendable_blocs.dart';
@@ -19,3 +21,4 @@ part 'src/utils/state_mapper.dart';
 part 'src/utils/state_observer.dart';
 part 'src/utils_widgets/object_provider.dart';
 part 'test/stateful_bloc_test.dart';
+part 'test/state_test.dart';

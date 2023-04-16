@@ -23,13 +23,14 @@ From 0.0.6-beta to 0.1.0-beta, we renamed:
 **The BLoC pattern has some restrictions, like:**
 
 - UI may affect **bloc** design
-    - You will need to merge multiple **bloc** into one **bloc** to be able to consume multiple states in the widget.
-    - Or you will need to divide a **bloc** to some smaller **bloc** if you want to depend on multiple states in the same widget.
+    - You will need to divide a **bloc** to some smaller **blocs** if you want to consume multiple states in the screen if you decided to make a single BLoC for the screen.
     - The workaround for this is to put different types of states in a big state and make a copyWith method, which is not useful for big screens or for global features that appear in different screens.
-- Rebuilds are restricted with the emits coming from the certain **bloc** and on the other hand, widgets get their data from the states which is not a straightforward approach in dependency and affects **bloc** design or obliges you to use nested `BlocBuilders`..
+- Rebuilds are restricted with the emits coming from a certain **bloc** which restrict you from emitting related states from multiple **blocs**.
 - **blocs** are not immutable, you can save data in them which is not safe and breaks the pattern.
 - You must write much boilerplate code to communicate with other **blocs** in the UI layer.
+
 There should not be tight coupling between the **bloc** that is responsible for emitting the states, and the rebuilding widget itself. The widget should depend on the states themselves even in the rebuilding.
+
 If **blocs** and states are decoupled, you are free to design your BLoCs and states as you need! BLoCs emit new states and widgets listen to the states totally independent of the emitter.
 
 ## Terminology
@@ -50,7 +51,6 @@ If **blocs** and states are decoupled, you are free to design your BLoCs and sta
 ## Solution
 
 `flutter_stateful_bloc` lets you consume the **states** themselves independently of **blocs**, which means:
-- No nested `BlocBuilders`.
 - **BLoCs** design is totally independent of the widget.
 - States can be consumed freely and safely from anywhere in the widget tree.
 - States can be mixed or mapped to other states.
@@ -182,8 +182,9 @@ And you are done!
 **There are two types of state mixing**:
 - **Override Mixing**: mixing states to a single state that overrides all of their properties.
 - **Combine Mixing**: mixing states to a combination of other states.
+- **State Mapper**: is used to make a widget depend on other states by mapping each of them to its state.
 
-**Override Mixing**:
+**Override Mixing**
 
 Imagine that the previous `Text` widget shows a message for 3 seconds when sending messages fails or succeeds.
 
@@ -273,7 +274,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-**Combine Mixing**:
+**Combine Mixing**
 
 In the last section we were lucky because both of the connection and send states represent data of the same type. What if there are multiple widgets with different data types?
 
@@ -296,7 +297,7 @@ Widget build(BuildContext context) {
       ConnectionStates connectionState,
     ) {
       return Container(
-        color: connectionState == ConnectionConnectedState ? Colors.green : Colors.red,
+        color: connectionState is ConnectionConnectedState ? Colors.green : Colors.red,
         child: Text(state.text),
       );
     },
@@ -306,7 +307,7 @@ Widget build(BuildContext context) {
 
 ***You can mix three states using MixedStateConsumer3***
 
-### State Mappers
+**State Mappers**
 
 Imagine that you need to emit a concrete **state** of type ***A*** when a concrete state of type ***B*** is emitted.
 
