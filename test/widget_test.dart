@@ -10,7 +10,7 @@ void main() {
     'widget test',
     () {
       setUp(() {
-        stateObserver.setDefaultStateObserver((_, __, ___) {});
+        stateObserver.setDefaultStateObserver((_, __) {});
       });
       tearDown(() {
         stateHolder.clear();

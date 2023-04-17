@@ -10,7 +10,6 @@ import 'package:flutter_test/flutter_test.dart' as test;
 import 'package:meta/meta.dart';
 import 'package:diff_match_patch/diff_match_patch.dart';
 
-part 'src/deprecations.dart';
 part 'src/extendable_blocs/extendable_blocs.dart';
 part 'src/global_blocs.dart';
 part 'src/stateful_bloc_widgets/state_consumer.dart';

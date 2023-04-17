@@ -1,60 +1,77 @@
 part of '../../flutter_stateful_bloc.dart';
 
-typedef StateChanged = void Function(
-  Type superState,
-  ContextState previous,
-  ContextState current,
+/// The public API of [StateObserver].
+final StateObserver stateObserver = _StateObserverImpl();
+
+typedef StateChanged<State extends ContextState> = void Function(
+  State? previous,
+  State current,
 );
 
-/// The global instance of [StateObserverInterface]
-StateObserverInterface get stateObserver => _StateObserver.instance;
+/// An interface used to observe states.
+abstract class StateObserver {
+  void observe<State extends ContextState>([StateChanged<State>? stateChanged]);
 
-/// This interface is used to trace the states of the application.
-abstract class StateObserverInterface {
-  /// This method sets the default function that executes when a new state is emitted.
-  void setDefaultStateObserver(StateChanged stateChanged);
-
-  /// This method sets the  function that executes when a new state of type [Type] is emitted.
-  void setStateObserver(Type type, StateChanged stateChanged);
-
-  /// Gets the state observer of type [Type].
-  StateChanged _getStateObserver(Type type);
+  void setDefaultStateObserver(StateChanged<ContextState> stateChanged);
 }
 
-/// The implementation of [StateObserverInterface].
-class _StateObserver implements StateObserverInterface {
-  static _StateObserver instance = _StateObserver._();
-
-  final Map<Type, StateChanged> _stateObservers = {};
-
-  StateChanged _defaultStateObserver = (
-    Type superState,
+class _StateObserverImpl implements StateObserver {
+  var subscriptions = <Type, StreamSubscription<ContextState>>{};
+  void Function(
+    Type type,
     ContextState previous,
     ContextState current,
-  ) {
+  ) _defaultStateObserver = (type, previous, current) {
     if (kDebugMode) {
       print(
-        'Scope $superState: '
+        'Scope $type: '
         'Transitioning from ${previous.runtimeType} '
         'to ${current.runtimeType}',
       );
     }
   };
 
-  _StateObserver._();
-
   @override
-  void setDefaultStateObserver(StateChanged stateChanged) {
-    _defaultStateObserver = stateChanged;
+  void observe<State extends ContextState>([
+    StateChanged<State>? stateChanged,
+  ]) {
+    if (State == dynamic) {
+      throw 'You must provide the generic type';
+    }
+
+    stateChanged ??= _getDefaultStateObserver<State>();
+
+    State? lastState;
+    final subscription = stateHolder._listen(
+      (state) {
+        if (state is State) {
+          stateChanged?.call(lastState, state);
+          lastState = state;
+        }
+      },
+    );
+
+    subscriptions[State]?.cancel();
+    subscriptions[State] = subscription;
   }
 
   @override
-  void setStateObserver(Type stateSuperType, StateChanged stateChanged) {
-    _stateObservers[stateSuperType] = stateChanged;
+  void setDefaultStateObserver(StateChanged<ContextState> stateChanged) {
+    _defaultStateObserver = (type, previous, current) {
+      return stateChanged(previous, current);
+    };
   }
 
-  @override
-  StateChanged _getStateObserver(Type type) {
-    return _stateObservers[type] ?? _defaultStateObserver;
+  StateChanged<State> _getDefaultStateObserver<State extends ContextState>() {
+    return (
+      State? previous,
+      State current,
+    ) {
+      return _defaultStateObserver(
+        State,
+        previous ?? _GlobalInitialState(),
+        current,
+      );
+    };
   }
 }

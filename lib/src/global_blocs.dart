@@ -11,7 +11,6 @@ GlobalCubit getGlobalCubitInstance(
     _globalCubit = GlobalCubit(
       stateMappers,
       stateHolder,
-      stateObserver,
     );
   }
 
@@ -25,13 +24,14 @@ GlobalCubit? _globalCubit;
 /// It must be injected over the whole app.
 @visibleForTesting
 class GlobalCubit extends Cubit<ContextState> {
-  GlobalCubit(this.stateMappers, this._stateHolder, this._stateObserver)
+  GlobalCubit(this.stateMappers, this._stateHolder)
       : super(_GlobalInitialState()) {
     _subscription = _stateHolder._listen((state) {
       emit(state);
       if (state is _GlobalInitialState) {
         return;
       }
+
       _emitMappedStates(state);
     });
   }
@@ -51,28 +51,13 @@ class GlobalCubit extends Cubit<ContextState> {
   /// Map of the type and its corresponding [StateMapper]s.
   final Map<Type, List<StateMapper>> stateMappers;
   final StateHolderInterface _stateHolder;
-  final StateObserverInterface _stateObserver;
   late final StreamSubscription<ContextState> _subscription;
 
   /// Saves the lase emitted state from [change] to the [_stateHolder].
   /// executes [_stateObserver] functions.
   @override
   // ignore: must_call_super
-  void onChange(Change<ContextState> change) {
-    final contextStateTypes = change.nextState.parentStates;
-    final currentState = change.nextState;
-
-    for (final contextStateType in contextStateTypes) {
-      var oldSimilarState =
-          _stateHolder.lastStateOfContextType(contextStateType);
-
-      oldSimilarState ??= _GlobalInitialState();
-
-      final callback = _stateObserver._getStateObserver(contextStateType);
-      callback(contextStateType, oldSimilarState, currentState);
-      _stateHolder.saveStateAfterEmit(contextStateType, currentState);
-    }
-  }
+  void onChange(Change<ContextState> change) {}
 
   /// Overriding [super.close] to never dispose the cubit.
   @override
@@ -87,7 +72,4 @@ class GlobalCubit extends Cubit<ContextState> {
 }
 
 /// The initial state of the application.
-class _GlobalInitialState extends ContextState {
-  @override
-  Set<Type> get parentStates => {_GlobalInitialState};
-}
+class _GlobalInitialState extends ContextState {}
