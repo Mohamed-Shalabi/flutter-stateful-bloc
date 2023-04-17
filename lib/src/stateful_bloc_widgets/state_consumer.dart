@@ -80,10 +80,10 @@ class MixedStateConsumer<State1 extends ContextState,
 
         if (state is State1) {
           state1 = state;
-          state2 = stateHolder.lastStateOfContextType(State2) as State2? ??
+          state2 = stateHolder.lastStateOfContextType<State2>() ??
               initialState2;
         } else if (state is State2) {
-          state1 = stateHolder.lastStateOfContextType(State1) as State1? ??
+          state1 = stateHolder.lastStateOfContextType<State1>() ??
               initialState1;
           state2 = state;
         } else {
@@ -157,20 +157,20 @@ class MixedStateConsumer3<
 
         if (state is State1) {
           state1 = state;
-          state2 = stateHolder.lastStateOfContextType(State2) as State2? ??
+          state2 = stateHolder.lastStateOfContextType<State2>() ??
               initialState2;
-          state3 = stateHolder.lastStateOfContextType(State3) as State3? ??
+          state3 = stateHolder.lastStateOfContextType<State3>() ??
               initialState3;
         } else if (state is State2) {
-          state1 = stateHolder.lastStateOfContextType(State1) as State1? ??
+          state1 = stateHolder.lastStateOfContextType<State1>() ??
               initialState1;
           state2 = state;
-          state3 = stateHolder.lastStateOfContextType(State3) as State3? ??
+          state3 = stateHolder.lastStateOfContextType<State3>() ??
               initialState3;
         } else if (state is State3) {
-          state1 = stateHolder.lastStateOfContextType(State1) as State1? ??
+          state1 = stateHolder.lastStateOfContextType<State1>() ??
               initialState1;
-          state2 = stateHolder.lastStateOfContextType(State2) as State2? ??
+          state2 = stateHolder.lastStateOfContextType<State2>() ??
               initialState2;
           state3 = state;
         } else {
