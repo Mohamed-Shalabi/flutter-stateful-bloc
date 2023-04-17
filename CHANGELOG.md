@@ -53,5 +53,5 @@
 ## 0.2.0-beta
 * changed implementation of state holder and state observer, see migration guide in README.md for more details.
 
-## 0.2.0-beta
+## 0.2.1-beta
 * Bug fixes.
