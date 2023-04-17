@@ -5,8 +5,6 @@ StateHolderInterface get stateHolder => _StateHolder.instance;
 
 typedef StateAction = void Function(ContextState);
 
-// TODO: split this api into two separate interfaces
-
 /// This is the interface used by the users to get the last state of a certain type.
 /// It is used by the package to
 /// - [_listen] to the states in the [GlobalCubit].

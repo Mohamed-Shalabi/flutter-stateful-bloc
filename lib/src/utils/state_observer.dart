@@ -1,5 +1,6 @@
 part of '../../flutter_stateful_bloc.dart';
 
+/// The public API of [StateObserver].
 final StateObserver stateObserver = _StateObserverImpl();
 
 typedef StateChanged<State extends ContextState> = void Function(
@@ -7,11 +8,11 @@ typedef StateChanged<State extends ContextState> = void Function(
   State current,
 );
 
+/// An interface used to observe states.
 abstract class StateObserver {
   void observe<State extends ContextState>([StateChanged<State>? stateChanged]);
 
   void setDefaultStateObserver(StateChanged<ContextState> stateChanged);
-
 }
 
 class _StateObserverImpl implements StateObserver {
@@ -23,7 +24,7 @@ class _StateObserverImpl implements StateObserver {
   ) _defaultStateObserver = (type, previous, current) {
     if (kDebugMode) {
       print(
-        'Scope $State: '
+        'Scope $type: '
         'Transitioning from ${previous.runtimeType} '
         'to ${current.runtimeType}',
       );
@@ -61,15 +62,16 @@ class _StateObserverImpl implements StateObserver {
     };
   }
 
-  StateChanged<State> _getDefaultStateObserver<State extends ContextState>() =>
-      (
-        State? previous,
-        State current,
-      ) {
-        return _defaultStateObserver(
-          State,
-          previous ?? _GlobalInitialState(),
-          current,
-        );
-      };
+  StateChanged<State> _getDefaultStateObserver<State extends ContextState>() {
+    return (
+      State? previous,
+      State current,
+    ) {
+      return _defaultStateObserver(
+        State,
+        previous ?? _GlobalInitialState(),
+        current,
+      );
+    };
+  }
 }
