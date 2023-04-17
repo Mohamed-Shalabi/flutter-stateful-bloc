@@ -17,6 +17,11 @@ From 0.0.6-beta to 0.1.0-beta, we renamed:
 - `StatefulBlocProvider` to `StatefulProvider`.
 - `StatefulBlocConsumer` to `StateConsumer`.
 - `StatefulBlocListener` to `StateListener`.
+- `stateHolder.lastStateOfParentType` to `stateHolder.lastStateOfContextType`.
+
+From 0.1.7-beta to 0.2.0-beta, we changed:
+- `stateHolder.lastStateOfContextType(Type)` to `stateHolder.lastStateOfContextType<Type>()`.
+- **states** are no longer observed by default, to observe certain states use `stateObserver.observe`.
 
 ## The Problem
 
@@ -144,7 +149,7 @@ You will need to provide an initial state. You can get the last emitted state of
 @override
 Widget build(BuildContext context) {
   return StateConsumer<ConnectionStates>(
-    initialState: stateHolder.lastStateOfParentType(ConnectionStates) ?? ConnectionDisconnectedState(),
+    initialState: stateHolder.lastStateOfContextType(ConnectionStates) ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, ConnectionStates state) {
       return Text('Connected: ${state.isConnected}');
     },
@@ -260,13 +265,13 @@ class MessagingFailedState with MessagingStates {
   String get text => errorMessage;
 }
 ```
-Note that if you need to use `stateHolder.lastStateOfParentType` method in the state, you should make it as a member variable and initiate it in the constructor.
+Note that if you need to use `stateHolder.lastStateOfContextType` method in the state, you should make it as a member variable and initiate it in the constructor.
 - Finally, edit the widget to consume the new **context state**
 ```dart
 @override
 Widget build(BuildContext context) {
   return StateConsumer<TextStates>(
-    initialState: stateHolder.lastStateOfParentType(TextStates) ?? ConnectionDisconnectedState(),
+    initialState: stateHolder.lastStateOfContextType(TextStates) ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, TextStates state) {
       return Text(state.text);
     },
@@ -287,9 +292,9 @@ Then, we will delete `TextStates` class and use `MixedStateConsumer`.
 Widget build(BuildContext context) {
   return MixedStateConsumer<MessagingSuccessState, ConnectionStates>(
     initialState1: 
-        stateHolder.lastStateOfParentType(MessagingSuccessState) ?? MessagingSuccessState(),
+        stateHolder.lastStateOfContextType(MessagingSuccessState) ?? MessagingSuccessState(),
     initialState2: 
-        stateHolder.lastStateOfParentType(ConnectionStates) ?? ConnectionDisconnectedState(),
+        stateHolder.lastStateOfContextType(ConnectionStates) ?? ConnectionDisconnectedState(),
     builder: (
       BuildContext context,
       dynamic lastState,
@@ -340,34 +345,20 @@ You can make a single mapper.
 
 ### State Observer
 
-- You can trace **states** by using the function `setDefaultStateObserver` in the `stateObserver` getter.
+You can trace **states** of certain type by using the function `observe` in the `stateObserver` getter.
 ```dart
-  stateObserver.setDefaultStateObserver((
-    Type contextState,
-    ContextState previous,
-    ContextState current,
-  ) {
-    if (kDebugMode) {
-      print(
-        'Scope $contextState: '
-        'Transitioning from ${previous.runtimeType} '
-        'to ${current.runtimeType}',
-      );
-    }
-  });
+stateObserver.observe<MyState>();
 ```
-- You can trace **states** of certain type by using the function `setStateObserver` in the `stateObserver` getter.
+With customization available using the optional parameter `stateChanged`.
 ```dart
-stateObserver.setStateObserver(
-  MessagingStates, 
+stateObserver.observe<MyState>(
   (
-    Type contextState,
     ContextState previous,
     ContextState current,
   ) {
     if (kDebugMode) {
       print(
-        'Scope $contextState: '
+        'Scope $MyState: '
         'Transitioning from ${previous.runtimeType} '
         'to ${current.runtimeType}',
       );
@@ -376,11 +367,13 @@ stateObserver.setStateObserver(
 );
 ```
 
+***NOTE: Starting from 0.2.0-beta, states are not observed by default***.
+
 ### State Holder
 
 - You can access last **states** of each **context state** using **stateHolder**.
 ```dart
-final lastTextState = stateHolder.lastStateOfParentType(TextState);
+final lastTextState = stateHolder.lastStateOfContextType(TextState);
 ```
 
 ## Testing

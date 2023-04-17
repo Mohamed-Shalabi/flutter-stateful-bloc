@@ -7,7 +7,7 @@ import 'context.dart';
 void main() {
   group('unit test', () {
     setUp(() {
-      stateObserver.setDefaultStateObserver((_, __, ___) {});
+      stateObserver.setDefaultStateObserver((_, __) {});
     });
     tearDown(() {
       stateHolder.clear();
@@ -17,7 +17,6 @@ void main() {
       build: () => GlobalCubit(
         {},
         stateHolder,
-        stateObserver,
       ),
       act: (bloc) {
         stateHolder.addState(CounterIncrementState(1));
@@ -35,7 +34,6 @@ void main() {
       build: () => GlobalCubit(
         {},
         stateHolder,
-        stateObserver,
       ),
       act: (bloc) {
         bloc.close();
@@ -61,7 +59,6 @@ void main() {
           ],
         },
         stateHolder,
-        stateObserver,
       ),
       act: (bloc) {
         stateHolder.addState(CounterIncrementState(1));
@@ -74,31 +71,32 @@ void main() {
         ThisWordState(),
       ],
     );
-    group(
-      'Testing state holder',
-      () {
-        setUp(() async {
-          final cubit = GlobalCubit(
-            {},
-            stateHolder,
-            stateObserver,
-          );
-          stateHolder.addState(CounterIncrementState(1));
-          Future(
-            () {
-              cubit.cancelStream();
-            },
-          );
-          await cubit.stream.toList();
-        });
-        test(
-          'Testing state holders',
+  });
+  group(
+    'Testing state holder',
+    () {
+      setUp(() async {
+        final cubit = GlobalCubit(
+          {},
+          stateHolder,
+        );
+        stateHolder.addState(CounterIncrementState(1));
+        stateHolder.addState(CounterDecrementState(0));
+        Future.delayed(
+          const Duration(seconds: 2),
           () {
-            final state = stateHolder.lastStateOfContextType(CounterStates);
-            expect(state, CounterIncrementState(1));
+            cubit.cancelStream();
           },
         );
-      },
-    );
-  });
+        await cubit.stream.toList();
+      });
+      test(
+        'Testing state holders',
+        () {
+          final state = stateHolder.lastStateOfContextType<CounterStates>();
+          expect(state, CounterDecrementState(0));
+        },
+      );
+    },
+  );
 }

@@ -38,6 +38,7 @@ dependencies:
   flutter_stateful_bloc: 
     git:
       url: https://github.com/Mohamed-Shalabi/flutter-stateful-bloc
+      ref: test
 
 
 dev_dependencies:

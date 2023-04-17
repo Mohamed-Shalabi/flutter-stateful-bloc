@@ -102,20 +102,17 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-abstract class WordStates implements ContextState {
+abstract class WordStates with ContextState {
   String get word;
 
   @override
   operator ==(Object? other) =>
-      other is WordStates &&
       other.runtimeType == runtimeType &&
+      other is WordStates &&
       word == other.word;
 
   @override
   int get hashCode => Object.hash(word, runtimeType);
-
-  @override
-  Set<Type> get parentStates => {WordStates};
 }
 
 class ThisWordState extends WordStates {
@@ -128,16 +125,13 @@ class ThatWordState extends WordStates {
   String get word => 'that';
 }
 
-abstract class CounterStates implements ContextState {
+abstract class CounterStates with ContextState {
   int get counter;
 
   @override
-  Set<Type> get parentStates => {CounterStates};
-
-  @override
   operator ==(Object? other) =>
-      other is CounterStates &&
       other.runtimeType == runtimeType &&
+      other is CounterStates &&
       counter == other.counter;
 
   @override
