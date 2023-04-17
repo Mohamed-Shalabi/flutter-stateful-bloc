@@ -80,11 +80,11 @@ class MixedStateConsumer<State1 extends ContextState,
 
         if (state is State1) {
           state1 = state;
-          state2 = stateHolder.lastStateOfContextType<State2>() ??
-              initialState2;
+          state2 =
+              stateHolder.lastStateOfContextType<State2>() ?? initialState2;
         } else if (state is State2) {
-          state1 = stateHolder.lastStateOfContextType<State1>() ??
-              initialState1;
+          state1 =
+              stateHolder.lastStateOfContextType<State1>() ?? initialState1;
           state2 = state;
         } else {
           state1 = initialState1;
@@ -157,21 +157,21 @@ class MixedStateConsumer3<
 
         if (state is State1) {
           state1 = state;
-          state2 = stateHolder.lastStateOfContextType<State2>() ??
-              initialState2;
-          state3 = stateHolder.lastStateOfContextType<State3>() ??
-              initialState3;
+          state2 =
+              stateHolder.lastStateOfContextType<State2>() ?? initialState2;
+          state3 =
+              stateHolder.lastStateOfContextType<State3>() ?? initialState3;
         } else if (state is State2) {
-          state1 = stateHolder.lastStateOfContextType<State1>() ??
-              initialState1;
+          state1 =
+              stateHolder.lastStateOfContextType<State1>() ?? initialState1;
           state2 = state;
-          state3 = stateHolder.lastStateOfContextType<State3>() ??
-              initialState3;
+          state3 =
+              stateHolder.lastStateOfContextType<State3>() ?? initialState3;
         } else if (state is State3) {
-          state1 = stateHolder.lastStateOfContextType<State1>() ??
-              initialState1;
-          state2 = stateHolder.lastStateOfContextType<State2>() ??
-              initialState2;
+          state1 =
+              stateHolder.lastStateOfContextType<State1>() ?? initialState1;
+          state2 =
+              stateHolder.lastStateOfContextType<State2>() ?? initialState2;
           state3 = state;
         } else {
           state1 = initialState1;
