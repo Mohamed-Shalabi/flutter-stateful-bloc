@@ -383,7 +383,7 @@ final lastTextState = stateHolder.lastStateOfContextType<TextState>();
 - More is comming soon.
 
 ## Articles
-- [Stateless BLoCs - More Flexibility!](https://medium.com/@mshalaby10/stateless-blocs-more-flexibility-abad8b081683)
+- [Stateless BLoCs - More Flexibility!](https://medium.com/@mshalaby10/stateless-blocs-more-flexibility-4ee5a4e52e49)
 
 ## TODOs
 - `MixedState` class that automates state mixing using reflection.
