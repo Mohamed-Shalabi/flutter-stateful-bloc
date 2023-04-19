@@ -162,11 +162,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: test
-      resolved-ref: "57dc59aa35ae6564898482b6f32c481886eb2672"
+      ref: dev
+      resolved-ref: d0c928ba1bdbfcc45c3b6026e399ef552b450a8d
       url: "https://github.com/Mohamed-Shalabi/flutter-stateful-bloc"
     source: git
-    version: "0.2.0-beta"
+    version: "0.2.2-beta"
   flutter_test:
     dependency: "direct dev"
     description: flutter

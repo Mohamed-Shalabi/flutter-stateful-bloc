@@ -17,20 +17,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StatefulProvider(
-      stateMappers: {
-        CounterIncrementState: [
-          (state) {
-            state = state as CounterIncrementState;
-            return ThatWordState();
-          },
-        ],
-        CounterDecrementState: [
-          (state) {
-            state = state as CounterDecrementState;
-            return ThisWordState();
-          },
-        ],
-      },
+      stateMappers: [
+        StateMapper<CounterIncrementState, ThatWordState>(
+          function: (_) => ThatWordState(),
+        ),
+        StateMapper<CounterDecrementState, ThisWordState>(
+          function: (_) => ThisWordState(),
+        ),
+      ],
       app: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
