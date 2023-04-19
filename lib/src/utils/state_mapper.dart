@@ -5,13 +5,16 @@ typedef StateMapped<FirstState extends ContextState,
         SecondState extends ContextState>
     = SecondState Function(FirstState firstState);
 
-/// The class send to [StatefulProvider.stateMappers].
-@immutable
+/// The class sent to [StatefulProvider.stateMappers].
 class StateMapper<FirstState extends ContextState,
     SecondState extends ContextState> {
-  const StateMapper({
+  StateMapper({
     required this.function,
-  }) : _type = FirstState;
+  }) : _type = FirstState {
+    if (SecondState == ContextState) {
+      throw 'You must entre generic types';
+    }
+  }
 
   final Type _type;
   final StateMapped<FirstState, SecondState> function;
