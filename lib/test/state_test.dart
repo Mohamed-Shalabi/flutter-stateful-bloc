@@ -26,7 +26,7 @@ void stateTest<State extends ContextState>(
           final states = <State>[];
           final cubits = buildCubits();
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          var globalCubit = getGlobalCubitInstance({});
+          var globalCubit = getGlobalCubitInstance([]);
           final subscription = globalCubit.stream.skip(skip).listen(
             (state) {
               if (state is State) {

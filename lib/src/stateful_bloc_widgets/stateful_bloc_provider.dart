@@ -6,13 +6,13 @@ class StatefulProvider extends StatelessWidget {
   const StatefulProvider({
     super.key,
     required this.app,
-    this.stateMappers = const {},
+    this.stateMappers = const [],
   });
 
   final Widget app;
 
-  /// [stateMappers] are a set of [StateMapper] for each state of type [Type] that are used to emit states of any type when a state of type [Type] is emitted.
-  final Map<Type, List<StateMapper>> stateMappers;
+  /// [stateMappers] are a set of [StateMapped] for each state of type [Type] that are used to emit states of any type when a state of type [Type] is emitted.
+  final List<StateMapper> stateMappers;
 
   @override
   Widget build(BuildContext context) {
