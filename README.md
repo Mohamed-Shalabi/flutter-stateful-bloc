@@ -313,10 +313,10 @@ Widget build(BuildContext context) {
   return StatefulProvider(
     stateMappers: [
       StateMapper<A, B>(
-        invoke: (A a) => B(a.data),
+        function: (A a) => B(a.data),
       ),
       StateMapper<B, A>(
-        invoke: (B b) => A(b.data),
+        function: (B b) => A(b.data),
       ),
     ],
     app: ...
