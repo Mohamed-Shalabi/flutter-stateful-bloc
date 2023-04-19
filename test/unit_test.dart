@@ -15,7 +15,7 @@ void main() {
     blocTest(
       'Testing GlobalCubit basic usage',
       build: () => GlobalCubit(
-        {},
+        [],
         stateHolder,
       ),
       act: (bloc) {
@@ -32,7 +32,7 @@ void main() {
     blocTest(
       'Should add state well even after calling close on GlobalCubit',
       build: () => GlobalCubit(
-        {},
+        [],
         stateHolder,
       ),
       act: (bloc) {
@@ -50,14 +50,14 @@ void main() {
     blocTest(
       'Testing state mappers',
       build: () => GlobalCubit(
-        {
-          CounterIncrementState: [
-            (oldState) => ThatWordState(),
-          ],
-          CounterDecrementState: [
-            (oldState) => ThisWordState(),
-          ],
-        },
+        [
+          StateMapper<CounterIncrementState, ThatWordState>(
+            function: (CounterIncrementState firstState) => ThatWordState(),
+          ),
+          StateMapper<CounterDecrementState, ThisWordState>(
+            function: (CounterDecrementState firstState) => ThisWordState(),
+          ),
+        ],
         stateHolder,
       ),
       act: (bloc) {
@@ -77,7 +77,7 @@ void main() {
     () {
       setUp(() async {
         final cubit = GlobalCubit(
-          {},
+          [],
           stateHolder,
         );
         stateHolder.addState(CounterIncrementState(1));

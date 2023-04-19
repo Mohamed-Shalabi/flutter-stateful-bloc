@@ -88,9 +88,6 @@ Widget build(BuildContext context) {
 ```dart
 abstract class ConnectionStates implements ContextState {
   bool get isConnected;
-
-  @override
-  List<Type> get parentStates => [ConnectionStates];
 }
 ```
 - create your **states** that mix the **context state**.
@@ -149,7 +146,7 @@ You will need to provide an initial state. You can get the last emitted state of
 @override
 Widget build(BuildContext context) {
   return StateConsumer<ConnectionStates>(
-    initialState: stateHolder.lastStateOfContextType(ConnectionStates) ?? ConnectionDisconnectedState(),
+    initialState: stateHolder.lastStateOfContextType<ConnectionStates>() ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, ConnectionStates state) {
       return Text('Connected: ${state.isConnected}');
     },
@@ -197,10 +194,7 @@ The logic of showing different states is done outside of the UI, but the `Text` 
 
 - The messaging states
 ```dart
-abstract class MessagingStates implements ContextState {
-  @override
-  List<Type> get parentStates => [MessagingStates];
-}
+abstract class MessagingStates implements ContextState {}
 
 class MessagingSuccessState extends MessagingStates {
   final String message;
@@ -221,17 +215,11 @@ class MessagingFailedState extends MessagingStates {
 ```dart
 abstract class TextState implements ContextState {
   String get text;
-
-  @override
-  List<Type> get parentStates => [TextState];
 }
 ```
 - Modify old **context states**:
 ```dart
-abstract class MessagingStates implements TextState {
-  @override
-  List<Type> get parentStates => [MessagingStates, TextState];
-}
+abstract class MessagingStates implements TextState {}
 
 abstract class ConnectionStates with TextState {
   final bool isConnected;
@@ -240,9 +228,6 @@ abstract class ConnectionStates with TextState {
 
   @override
   String get text => isConnected ? 'Connected' : 'Not connected';
-
-  @override
-  List<Type> get parentStates => [ConnectionStates, TextState];
 }
 ```
 - Now, you will need to implement the text getter in the concrete `MessagingStates`
@@ -271,7 +256,7 @@ Note that if you need to use `stateHolder.lastStateOfContextType` method in the 
 @override
 Widget build(BuildContext context) {
   return StateConsumer<TextStates>(
-    initialState: stateHolder.lastStateOfContextType(TextStates) ?? ConnectionDisconnectedState(),
+    initialState: stateHolder.lastStateOfContextType<TextStates>() ?? ConnectionDisconnectedState(),
     builder: (BuildContext context, TextStates state) {
       return Text(state.text);
     },
@@ -292,9 +277,9 @@ Then, we will delete `TextStates` class and use `MixedStateConsumer`.
 Widget build(BuildContext context) {
   return MixedStateConsumer<MessagingSuccessState, ConnectionStates>(
     initialState1: 
-        stateHolder.lastStateOfContextType(MessagingSuccessState) ?? MessagingSuccessState(),
+        stateHolder.lastStateOfContextType<MessagingSuccessState>() ?? MessagingSuccessState(),
     initialState2: 
-        stateHolder.lastStateOfContextType(ConnectionStates) ?? ConnectionDisconnectedState(),
+        stateHolder.lastStateOfContextType<ConnectionStates>() ?? ConnectionDisconnectedState(),
     builder: (
       BuildContext context,
       dynamic lastState,
@@ -326,10 +311,14 @@ Modify the `StatefulProvider` to be:
 @override
 Widget build(BuildContext context) {
   return StatefulProvider(
-    stateMappers: {
-      A: [(A a) => B(a.data)],
-      B: [(B b) => A(b.data)],
-    },
+    stateMappers: [
+      StateMapper<A, B>(
+        invoke: (A a) => B(a.data),
+      ),
+      StateMapper<B, A>(
+        invoke: (B b) => A(b.data),
+      ),
+    ],
     app: ...
   );
 }
@@ -373,7 +362,7 @@ stateObserver.observe<MyState>(
 
 - You can access last **states** of each **context state** using **stateHolder**.
 ```dart
-final lastTextState = stateHolder.lastStateOfContextType(TextState);
+final lastTextState = stateHolder.lastStateOfContextType<TextState>();
 ```
 
 ## Testing

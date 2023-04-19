@@ -3,7 +3,7 @@ part of '../flutter_stateful_bloc.dart';
 /// The getter of the global instance of [GlobalCubit].
 @visibleForTesting
 GlobalCubit getGlobalCubitInstance(
-  Map<Type, List<StateMapper>> stateMappers, [
+  List<StateMapper> stateMappers, [
   bool isNewInstance = false,
 ]) {
   if (isNewInstance || _globalCubit == null) {
@@ -38,18 +38,18 @@ class GlobalCubit extends Cubit<ContextState> {
 
   /// Emits all the states mapped from [state].
   void _emitMappedStates(ContextState state) {
-    final functions = [
-      ...(stateMappers[state.runtimeType] ?? []),
+    final filteredMappers = [
+      ...stateMappers.where((element) => element._type == state.runtimeType),
     ];
 
-    for (final function in functions) {
-      final mappedState = function(state);
+    for (final mapper in filteredMappers) {
+      final mappedState = mapper(state);
       emit(mappedState);
     }
   }
 
-  /// Map of the type and its corresponding [StateMapper]s.
-  final Map<Type, List<StateMapper>> stateMappers;
+  /// Map of the type and its corresponding [StateMapped]s.
+  final List<StateMapper> stateMappers;
   final StateHolderInterface _stateHolder;
   late final StreamSubscription<ContextState> _subscription;
 

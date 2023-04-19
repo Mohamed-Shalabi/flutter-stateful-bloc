@@ -55,3 +55,6 @@
 
 ## 0.2.1-beta
 * Bug fixes.
+
+## 0.2.2-beta
+* Improved state mappers.
