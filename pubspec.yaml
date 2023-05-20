@@ -1,11 +1,11 @@
 name: flutter_stateful_bloc
 description: A Flutter package that wraps the flutter_bloc package to easify working with it.
-version: '0.2.2-beta'
+version: '0.2.3-beta'
 repository: https://github.com/Mohamed-Shalabi/flutter-stateful-bloc
 license: Apache-2.0
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:

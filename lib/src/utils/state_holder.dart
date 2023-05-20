@@ -37,6 +37,7 @@ class _StateHolder implements StateHolderInterface {
   @override
   void addState<State extends ContextState>(State state) {
     _statesStreamController.add(state);
+    _lastStates.removeWhere((element) => element is State);
     _lastStates.add(state);
   }
 
