@@ -58,3 +58,7 @@
 
 ## 0.2.2-beta
 * Improved state mappers.
+
+## 0.2.3-beta
+* Improved performance.
+* supported Dart 3.

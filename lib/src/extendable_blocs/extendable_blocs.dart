@@ -3,7 +3,7 @@ part of '../../flutter_stateful_bloc.dart';
 /// A class that is implemented by the abstract context states.
 /// Override [parentStates] with the abstract class name and its parents.
 @immutable
-abstract class ContextState {}
+abstract mixin class ContextState {}
 
 /// The base bloc that should be extended.
 /// See also:
